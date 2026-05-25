@@ -1,123 +1,185 @@
 \chapter{Literature Review and Theoretical Background}
-\label{chap:litreview}
+\label{ch:literature}
 
-% --- Purpose (for students) ---
-% This chapter defines key concepts, surveys related work, and sets the theoretical lens.
-% It must end by motivating the research direction and articulating the concrete gap your thesis fills.
+This chapter presents the theoretical background of the thesis. It explains the key concepts, reviews related work, describes the theoretical framework, shows an illustrative code snippet, and defines the research motivation and direction.
 
 \section{Core Concepts and Definitions}
 \label{sec:concepts}
-Introduce the foundational terms your thesis relies on using authoritative sources, e.g., \cite{porter2008,laudon2015}. Define each term exactly once and use it consistently throughout the thesis. Prefer primary definitions where possible; when multiple definitions exist, present the variants and justify your chosen convention.
 
-Inline emphasis: \emph{italics}, \textbf{bold}. Use \verb|\enquote{...}| (from \texttt{csquotes}) for quotations, e.g., \enquote{quoted text}. Use \verb|\url{...}| for clickable links such as \url{https://ctan.org}.
+Before discussing the system design, it is important to explain the main concepts. These concepts are used in all chapters of the thesis. They form the basic language of the project.
 
-\paragraph{Citation tip.}
-With \texttt{biblatex} (IEEE style in this project), numeric citations use \verb|\cite{...}|.\footnote{Place the citation after punctuation when it references a full sentence.} Group multiple sources as needed, e.g., \cite{friedman2006,schmidt2014}.
+A \textbf{Large Language Model (LLM)} is a computer program that learns from a very large amount of text. After training, the LLM can read a text question and write a text answer in natural language. Modern LLMs are based on the Transformer architecture~\cite{vaswani2017attention}. Examples of popular LLMs are GPT-4, Claude, Gemini, and Grok. In this thesis, the LLM is Grok by xAI.
 
-\section{Related Work: Themes, Methods, and Evidence}
-\label{sec:related}
-Organize prior work by coherent themes (theory, methods, application domains) or chronology. For each theme, summarize the central idea, typical assumptions, evaluation protocols, and reported limitations. Contrast strands rather than listing them.
+A \textbf{prompt} is the input text that we send to the LLM. A prompt usually contains a task description, optional examples, and the actual question. The quality of the LLM answer depends a lot on the prompt.
 
-\begin{itemize}[leftmargin=1.2cm]
-  \item \textbf{Approach A (theory-driven).} Outline core mechanisms, typical datasets, and where this approach excels; note constraints or external validity issues \cite{friedman2006}.
-  \item \textbf{Approach B (data-driven/practice-oriented).} Contrast assumptions and deployment costs with Approach A; highlight reproducibility and measurement issues \cite{laudon2015}.
-  \item \textbf{Approach C (hybrid/emerging).} Summarize integration points and remaining open problems \cite{schmidt2014}.
-\end{itemize}
+\textbf{Prompt engineering} is the work of designing good prompts. It is a new but very important skill in AI development. There are several known prompt engineering strategies. The most popular are zero-shot prompting, few-shot prompting~\cite{brown2020language}, Chain-of-Thought (CoT)~\cite{wei2022chain}, and Persona-based prompting~\cite{shanahan2023role}.
 
-When referring to figures, tables, algorithms, or listings, always use labels + \verb|\cref| (e.g., \cref{fig:example-figure,tab:example-table,alg:example,lst:snippet}).
+A \textbf{hallucination} is a wrong answer of the LLM. The LLM ``invents'' a fact, a product, or a name that does not exist. Hallucinations are one of the biggest problems of modern LLMs~\cite{huang2023survey}.
 
-% ---- Figure example (caption under figure; centered by class) ----
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=0.7\linewidth]{b_chapters/chapter1/assets/RNU_large_logo.png}
-  \figsource{Author-created illustration (replace with your own figure and source).}
-  \caption{Example figure: a conceptual taxonomy (replace with your content).}
-  \label{fig:example-figure}
-\end{figure}
+A \textbf{Telegram bot} is a program that works inside Telegram and answers user commands. A bot can send messages automatically. The Telegram Bot API is free and well documented. Many companies and developers use Telegram bots because they do not require a separate mobile application.
 
-% ---- Table example (caption above; ragged-right by class) ----
-{\singlespacing
-\begin{table}[h]
-  \caption{Comparison matrix (replace with your synthesis)}
-  \label{tab:example-table}
-  \centering
-  \begin{tabular}{lrrr}
-    \toprule
-    Criterion            & Method A & Method B & Method C\\
-    \midrule
-    Accuracy (avg)       & 0.82     & 0.79     & 0.84\\
-    Cost (relative)      & High     & Medium   & Low\\
-    Data requirement     & Large    & Medium   & Small\\
-    \bottomrule
-  \end{tabular}
+A \textbf{recommendation system} is a system that suggests items to users. Classic recommendation systems use collaborative filtering or content-based filtering~\cite{ricci2015recommender}. LLM-based recommendation systems are a new type that uses an LLM as the main reasoning engine~\cite{wu2024survey}.
 
-  \vspace{2mm}
-  \emph{Note:} Replace placeholders with your evidence; include units and sources.
+A \textbf{database} is a structured place for storing information. In this thesis, the database is SQLite. SQLite is a lightweight database system that stores data in one local file. It does not need a separate database server. SQLite is suitable for small and medium projects.
+
+A \textbf{Minimum Viable Product (MVP)} is the first working version of a system that contains only the most important functions. MVP is often used in student and startup projects. It allows the developer to test the main idea first and improve the system later.
+
+Table~\ref{tab:concepts} summarizes the main concepts of the thesis.
+
+\begin{table}[H]
+\centering
+\caption{Main concepts used in the thesis}
+\label{tab:concepts}
+\begin{tabular}{p{3.5cm} p{5cm} p{5cm}}
+\toprule
+\textbf{Concept} & \textbf{Simple definition} & \textbf{Role in this thesis} \\
+\midrule
+LLM & A program that reads text and writes text answers & The brain that generates gift ideas \\
+Prompt & The text we send to the LLM & The way we ask for gift ideas \\
+Prompt engineering & The work of designing good prompts & The scientific core of the thesis \\
+Hallucination & A wrong or invented LLM answer & One of the measured metrics \\
+Telegram bot & A program inside Telegram that answers commands & The user interface of the system \\
+Recommendation system & A system that suggests items to users & The general category of the bot \\
+SQLite & A lightweight file-based database & Stores users, sessions, and feedback \\
+MVP & First working version of a system & Describes the project scope \\
+\bottomrule
+\end{tabular}
 \end{table}
-}
+
+These definitions show that the thesis combines several research areas: LLMs, prompt engineering, Telegram bots, and recommendation systems. The next section reviews related work in each of these areas.
+
+\section{Related Work: Themes, Methods, Evidence}
+\label{sec:related-work}
+
+Related work is organized in three themes. The first theme is prompt engineering strategies. The second theme is LLM-based recommendation systems. The third theme is chat-based assistants and Telegram bots.
+
+\subsection{Prompt Engineering Strategies}
+
+Prompt engineering is a young but fast-growing research area. The first important paper on this topic was the GPT-3 paper by Brown et al.~\cite{brown2020language}. This paper introduced \textit{few-shot prompting}: the model receives a few examples of the task before the actual question. Few-shot prompting was much better than zero-shot prompting for many tasks.
+
+In 2022, Wei et al. proposed Chain-of-Thought (CoT) prompting~\cite{wei2022chain}. The idea is simple: the model is asked to ``think step by step'' before giving the final answer. CoT showed strong improvements in reasoning tasks, such as math problems and logical puzzles. Later, Kojima et al.~\cite{kojima2022large} showed that even adding the phrase ``Let's think step by step'' to a prompt improves results.
+
+Persona-based prompting was studied by Shanahan et al.~\cite{shanahan2023role}. The idea is to tell the LLM to ``play a role'', for example, ``You are an expert gift advisor with 20 years of experience''. This often gives more focused and confident answers.
+
+A useful overview of all main prompt engineering techniques was written by Sahoo et al.~\cite{sahoo2024systematic}. This survey lists more than 30 techniques and groups them by purpose.
+
+For this thesis, four strategies were selected: Naive, Constrained, Chain-of-Thought, and Persona-based. The first two are simple baselines. The last two are advanced strategies from recent research.
+
+\subsection{LLM-based Recommendation Systems}
+
+Recommendation systems are a classic research area. Traditional methods use collaborative filtering or content-based filtering~\cite{ricci2015recommender}. These methods need a lot of user-item interaction data. For a small project, this data is not available.
+
+LLM-based recommendation systems are a new approach. Wu et al.~\cite{wu2024survey} present a survey of this area. They show that LLMs can be used as recommenders in two ways. The first way is to use the LLM as a feature extractor. The second way is to use the LLM directly as the recommender that generates suggestions in natural language. This thesis uses the second way.
+
+A relevant study by Hou et al.~\cite{hou2024large} tested LLMs as ``zero-shot rankers'' in recommendation tasks. The results showed that LLMs can give reasonable suggestions even without training on user data. This is important for the gift recommendation task, because there are no large public datasets of ``user-gift'' pairs.
+
+\subsection{Chat-based Assistants and Telegram Bots}
+
+Chat-based assistants are now common in many areas. Banking bots, customer support bots, and government service bots are widely used in Uzbekistan. Telegram is one of the most popular messengers in the country.
+
+For the Telegram platform, the official Bot API is described in the Telegram documentation~\cite{telegram_botapi}. For Python developers, the aiogram library~\cite{aiogram_docs} is the most popular tool. Aiogram supports asynchronous code, inline buttons, finite-state machines for multi-step dialogs, and easy connection to external APIs.
+
+Several public projects combine Telegram bots with LLMs. For example, many open-source repositories on GitHub provide simple ChatGPT-style bots. However, these projects are not focused on a specific task. They are general assistants. The gap that this thesis fills is a focused, single-task bot with a structured questionnaire and a scientific comparison of prompt strategies.
+
+\subsection{Comparison of approaches}
+
+Table~\ref{tab:related-work} compares different approaches to the gift recommendation task.
+
+\begin{table}[H]
+\centering
+\caption{Comparison of gift recommendation approaches}
+\label{tab:related-work}
+\begin{tabular}{p{3cm} p{3cm} p{3cm} p{3cm}}
+\toprule
+\textbf{Approach} & \textbf{Main advantages} & \textbf{Main limitations} & \textbf{Suitability for this thesis} \\
+\midrule
+Manual search in shops & Direct view of products & Slow, tiring, many tabs & Not relevant, this is the current state \\
+Traditional recommender (collaborative filtering) & Strong if data is available & Needs large user-item dataset & Not suitable, no dataset \\
+Web-based AI gift advisor & Visual interface, web access & Needs separate website, installation barrier & Possible, but extra cost \\
+LLM-based Telegram bot (this thesis) & Easy access, no install, fast, personalized & Limited by LLM quality and hallucinations & Highly suitable \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The comparison shows that an LLM-based Telegram bot is a practical and original solution. It combines the strong reasoning of modern LLMs with the easy access of Telegram. The next section presents the theoretical framework that supports this design.
 
 \section{Theoretical Framework}
-\label{sec:theory}
-State the theoretical lens or formal model that grounds your work. Define variables and relationships precisely, and connect assumptions to the context of your thesis. Keep derivations concise; move long proofs to an appendix.
+\label{sec:framework}
 
-\begin{align}
-  \label{eq:objective}
-  J(\theta) &= \mathbb{E}_{(x,y)\sim \mathcal{D}} \bigl[\, \ell(f_\theta(x),\, y)\, \bigr] \, ,
-\end{align}
+The system in this thesis is an information system with an LLM in the centre. It can be described with the classical \textit{input--processing--output} model.
 
-where $\ell$ is the loss aligned to your evaluation criterion and $f_\theta$ the model or rule under study. Reference important equations with \verb|\cref|, e.g., \cref{eq:objective}.
+\textbf{Input.} The user enters answers to a short questionnaire and optional free text. The bot collects this information into a structured user profile.
 
-% ---- Algorithm (float + pseudocode) example ----
-\begin{algorithm}[h]
-\caption{Generic greedy selection (template — adapt to your context)}
-\begin{algorithmic}[1]
-  \State Initialize solution $S \gets \emptyset$
-  \While{a feasible choice exists}
-    \State choose the best feasible item $x$ according to criterion $C$
-    \State $S \gets S \cup \{x\}$
-  \EndWhile
-  \State \Return $S$
-\end{algorithmic}
-\label{alg:example}
-\end{algorithm}
+\textbf{Processing.} The bot selects one of the four prompt strategies (in the experiment, all four are tested). The bot inserts the user profile into the prompt template and sends the prompt to the Grok API. The Grok LLM generates an answer in natural language. The bot parses this answer and formats it for Telegram.
 
-\section{Illustrative Code Snippet (if applicable)}
-\label{sec:listings}
-Include small, focused excerpts that clarify core ideas or reproducibility steps. Keep captions short and descriptive.
+\textbf{Output.} The bot sends the formatted answer to the user. The answer contains three gift ideas, each with a short explanation. The user is then asked to rate the answer on three scales (relevance, creativity, specificity) and can leave an optional comment.
 
-\begin{lstlisting}[language=Python,caption={Example function signature for a data transform},label={lst:snippet},float=htbp]
-def transform(records: list[dict]) -> list[dict]:
-    """Validate and normalize input records (example)."""
-    out = []
-    for r in records:
-        if "id" not in r:
-            continue
-        r = {k.strip().lower(): v for k, v in r.items()}
-        out.append(r)
-    return out
+This framework uses a client--server architecture with asynchronous message passing. The Telegram client communicates with the bot server through the Telegram Bot API. The bot server communicates with the Grok API through HTTPS. The SQLite database stores users, sessions, and feedback.
+
+The framework is general. The same architecture can be used for other recommendation tasks (books, movies, travel) with only small changes in the prompt templates.
+
+\section{Illustrative Code Snippet}
+\label{sec:code-snippet}
+
+Listing~\ref{lst:cot-prompt} shows a simple example of a Chain-of-Thought prompt builder in Python. The function takes a user profile and returns a prompt string. The prompt asks the LLM to think step by step before giving the final answer.
+
+\begin{lstlisting}[language=Python, caption={Example of a Chain-of-Thought prompt builder.}, label={lst:cot-prompt}]
+def build_cot_prompt(profile: dict) -> str:
+    """Build a Chain-of-Thought prompt from a user profile."""
+    return f"""
+You are helping someone choose a gift.
+
+Receiver profile:
+- Relation: {profile['relation']}
+- Gender: {profile['gender']}
+- Age group: {profile['age_group']}
+- Occasion: {profile['occasion']}
+- Budget: {profile['budget']}
+- Interests: {', '.join(profile['interests'])}
+- Extra notes: {profile.get('free_text', 'none')}
+
+Think step by step:
+1) What does this person like?
+2) What gifts match the interests AND the budget?
+3) Avoid clichés (flowers, chocolates, generic gift cards).
+
+Finally, give exactly 3 gift ideas. For each idea, write:
+- Name of the gift
+- One sentence why it fits this person
+- An approximate price in USD
+"""
 \end{lstlisting}
 
-Reference listings with \cref{lst:snippet}. If advanced highlighting is required, consider \texttt{minted} (not enabled in this template by default to avoid external dependencies).
+This snippet shows two important things. First, building a prompt is mostly string formatting. There is no complex machine learning code in the bot itself. The intelligence is in the LLM. Second, the prompt is a normal piece of text. It can be improved, tested, and version-controlled like any other piece of code. This is the core idea of prompt engineering.
 
 \section{Research Motivation and Direction}
 \label{sec:motivation}
-\textbf{Purpose.} This subsection translates the state of the art (\cref{sec:related}) and the theoretical lens (\cref{sec:theory}) into a concrete research direction that is both \emph{necessary} (gap) and \emph{actionable} (methods and data you will actually use).
 
-\paragraph{Problem significance.}
-Briefly argue why the problem matters (scientific or practical). Identify stakeholders and decision contexts affected by your results.
+The literature review shows three important facts.
 
-\paragraph{Identified gap.}
-From the comparison in \cref{sec:related}, distill the unmet need (e.g., missing evaluation setting, scalability constraint, domain misfit, weak external validity). Define the gap in one or two sentences that are testable or measurable.
+\textbf{Fact 1.} Prompt engineering has a strong effect on LLM output quality. Different strategies work better for different tasks. Most existing studies test general tasks (math, reasoning, summarization). The gift recommendation task is almost not studied.
 
-\paragraph{Direction and scope.}
-State the research direction you will pursue to address the gap, together with scope boundaries (what is deliberately out of scope). Link this direction to the thesis \emph{Aim} and \emph{Tasks} defined in the Introduction and to the task→chapter mapping (see Table in the Introduction).
+\textbf{Fact 2.} LLM-based recommendation is a new but promising direction. It does not need a large user-item dataset, which is good for a bachelor thesis. But it has known weaknesses: hallucinations, clichés, and loss of context.
 
-\paragraph{Success criteria.}
-Name the primary evaluation criteria (metrics or qualitative outcomes) that will determine whether the approach succeeds in your empirical chapter.
+\textbf{Fact 3.} Telegram bots are very popular in Uzbekistan. They are easy to access and do not need a separate app. A Telegram bot is a practical user interface for an AI service.
+
+These three facts together form the motivation of this thesis. The goal is to combine the three areas in one small but well-tested system, and to add a scientific comparison of prompt strategies.
+
+\textbf{Direction and scope.} The thesis builds an MVP Telegram bot with the Grok API and four prompt strategies. The bot is tested on 30 synthetic personas (120 cases total) and with 5--10 real users.
+
+\textbf{Out of scope.} The thesis does \textit{not} cover: training a custom LLM, real Instagram or Facebook integration, real marketplace integration (Uzum, Olcha), multimodal input (images, voice), and comparison with other LLM providers (only Grok is tested). These topics are listed as future work in Chapter~\ref{ch:discussion}.
+
+\textbf{Success criteria.} The project is successful if: the bot is working and deployed; the experiment produces clear differences between the four strategies; the average response time is below 10 seconds; the user feedback is mostly positive (more than 60\% positive ratings).
 
 \section{Chapter Summary}
-\label{sec:summary}
-This chapter (i) fixed key concepts (\cref{sec:concepts}), (ii) compared approaches and exposed a concrete gap (\cref{sec:related}), and (iii) established the theoretical lens (\cref{sec:theory}). The \textbf{Research Motivation and Direction} (\cref{sec:motivation}) specifies how the thesis will address that gap, setting up the next chapter’s analysis of the case/system.
+\label{sec:ch1-summary}
 
-\noindent\textbf{Conclusions (for Chapter~1).}
-We defined the conceptual vocabulary, contrasted major approaches with evidence, and selected a theory consistent with the problem setting. A concrete gap has been articulated together with success criteria and scope. These choices motivate the analysis in Chapter~\ref{chap:analysis} and the empirical design in Chapter~\ref{chap:empirical}.
+This chapter presented the theoretical background of the thesis. It explained the main concepts: LLM, prompt, prompt engineering, hallucination, Telegram bot, recommendation system, SQLite, and MVP. The reader now has a clear language to follow the rest of the thesis.
+
+The chapter also reviewed related work in three themes: prompt engineering strategies, LLM-based recommendation, and chat-based assistants. The review showed that the gift recommendation task is almost not studied in prompt engineering research. This is the main scientific gap that the thesis tries to fill.
+
+The theoretical framework was described as a client--server architecture with an LLM in the centre, organized in the input--processing--output pattern. A short code example of a Chain-of-Thought prompt builder showed how a prompt is constructed in practice.
+
+Finally, the research motivation and direction were defined. The thesis builds a focused MVP, tests four prompt strategies on a controlled set of personas, and validates the results with real users. Topics like multimodal input or custom LLM training are out of scope and moved to future work.
+
+The next chapter presents the case and system analysis. It describes the situation of gift selection today, the user groups, and the functional and non-functional requirements of the bot.

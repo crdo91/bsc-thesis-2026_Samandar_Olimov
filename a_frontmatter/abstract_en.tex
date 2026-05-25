@@ -1,21 +1,20 @@
-\frontmatterpage
-\unchapter{Abstract}
+\chapter*{Abstract (EN)}
+\addcontentsline{toc}{chapter}{Abstract (EN)}
 
-The abstract is a short summary of the Bachelor Paper. It should give the reader a clear overview of the topic, the structure of the thesis, the methods applied, and the main findings. The abstract must not exceed 300 words and must be written as one continuous text (no bullet points, tables, figures, or references).  
+\textbf{Title:} Development of an AI-Powered Telegram Bot for Personalized Gift Recommendations Using Prompt Engineering Techniques.
 
-The abstract typically begins with a \textbf{brief introduction to the topic}. State in 1–2 sentences what the paper is about and why the topic is relevant. Do not repeat the full aim, tasks, or hypothesis here – these are covered in the Introduction.  
+Choosing a gift is a common but time-consuming task in daily life. Online marketplaces show many products but no personalized advice. Modern Large Language Models (LLMs) can reason about a receiver profile and suggest gift ideas in natural language. However, the quality of LLM answers depends a lot on the prompt design. This problem is studied by the new research area called prompt engineering.
 
-Next, provide a \textbf{chapter-by-chapter overview of the structure of the thesis}.  
-Example:  
-"The Bachelor Paper consists of <NUMBER OF CHAPTERS>. Chapter 1 reviews <THEORETICAL FRAMEWORK>. Chapter 2 presents <ANALYSIS OF FIELD/CASE/STUDY OBJECT>. Chapter 3 contains <EMPIRICAL STUDY OR PRACTICAL RESEARCH>. Chapter 4 proposes <IMPROVEMENTS / MODEL / SOLUTIONS>."  
+The aim of the thesis is to develop a Telegram bot that uses an LLM (Grok by xAI) for personalized gift recommendations, and to compare four prompt engineering strategies in this task: Naive, Constrained, Chain-of-Thought (CoT), and Persona-based.
 
-Afterwards, include a short note on the \textbf{methods applied}, without going into detail.  
-Example:  
-"The methodological basis of the study includes the analysis of scientific literature, statistical data, and other relevant sources. The applied methods are <LIST METHODS SUCH AS: comparative analysis, surveys, experiments, modelling>."  
+The bot was developed in Python using the aiogram framework and SQLite as the database. The user passes through a short questionnaire with six structured questions, then receives three personalized gift ideas. The system was deployed on the PythonAnywhere cloud platform.
 
-Then, summarize the \textbf{main results and conclusions} in 2–3 sentences. Focus only on the most important contribution of the paper.  
+A controlled experiment was carried out. Thirty synthetic user personas were prepared. All four prompt strategies were run on all personas, giving 120 test cases. Each output was scored on five metrics: relevance, creativity, specificity, hallucination rate, and response time. The bot was also tested by eight real users.
 
-Finally, indicate the \textbf{scope of the work}.  
-\thesisscopeEN
+The results confirm the hypothesis that advanced strategies produce significantly better recommendations than naive prompting. The best overall strategy was Chain-of-Thought (relevance 4.43/5, hallucination rate 8.9\%). The most creative strategy was Persona-based (creativity 4.53/5). All four strategies produced answers in less than 10 seconds. 75\% of real users said they would use the bot again.
 
-\textbf{Keywords:} list 5–7 keywords that best describe the topic and focus of the paper.
+The thesis also proposes future improvements, including real marketplace integration, multimodal input, multilingual support, and a hybrid prompt pipeline that combines Persona creativity with Constrained filtering.
+
+The work confirms that prompt engineering is a real and measurable engineering activity. The methodology proposed in this thesis is domain-agnostic and can be applied to other personalized recommendation tasks.
+
+\textbf{Volume:} 55 pages, 14 tables, 7 figures, 22 references, 3 appendices.

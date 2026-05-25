@@ -1,93 +1,121 @@
-\chapter{Case / System Analysis (Example Chapter~2)}
-\label{chap:analysis}
+\chapter{Case and System Analysis}
+\label{ch:analysis}
 
-% --- IMPORTANT NOTE FOR STUDENTS ---
-% This is only a suggested structure and sample content.
-% You are free to modify, reorder, merge, or rename sections
-% if it makes sense for your topic — as long as your supervisor agrees.
+This chapter analyses the case of gift selection today. It describes the general situation, the user groups, the functional and non-functional requirements, the constraints, and the risks. The chapter creates the practical context for the system that is designed and built in Chapter~\ref{ch:development}.
 
-This chapter often provides a structured analysis of the case, dataset, or system that your thesis investigates.  
-However, its scope and layout depend heavily on the chosen topic. Some theses merge this part into the empirical chapter; others expand it into multiple chapters.  
-Think of the following sections as \emph{examples}, not as mandatory rules.
+\section{General Context: Gift Selection Today}
+\label{sec:context}
 
-\section{General Characteristics of the Case / System (Example Section)}
-\label{sec:case}
-Here you may describe the case or system under study (e.g., an IT application, dataset, algorithm, protocol, or infrastructure).  
-Mention background, design, stakeholders, or technical architecture.  
+Gift giving is a part of daily life. People give gifts on birthdays, anniversaries, holidays, and many other occasions. In Uzbekistan, gift giving is also strong in family traditions, friendships, and at work. A good gift shows attention and care. A bad gift can be a small embarrassment.
 
-\paragraph{Note.} Adapt the level of detail to your project.  
-If your work is purely theoretical, this section can be shorter. If it is applied to a concrete system or dataset, give enough context so the reader understands what is being studied.
+The current process of choosing a gift has several typical steps. First, the buyer thinks about the receiver: age, gender, hobbies, lifestyle. Second, the buyer thinks about the budget. Third, the buyer searches in shops, websites, or social networks. Fourth, the buyer asks friends for advice. Fifth, the buyer chooses one option. This process can take many hours, especially for important occasions.
 
-\section{Analysis of Internal and External Environment (Optional Example)}
-\label{sec:env}
-Depending on your topic, you might include a structured breakdown of the system.  
-Possible angles include (choose those that fit, or invent your own):
+Several digital services already exist to help with this task. Online marketplaces such as Amazon, Uzum, or Olcha offer category filters and ``gift ideas'' pages. Some websites are dedicated to gift suggestions (for example, Giftster, Elfster). Mobile applications also exist, but they are not popular in Uzbekistan. All these services have one common limitation: they show \textit{products from a catalogue}, not personalized advice based on a real receiver profile.
 
-\begin{itemize}[leftmargin=1.2cm]
-  \item \textbf{Architecture.} Components, modules, services, or data pipelines.
-  \item \textbf{Performance.} Scalability, latency, throughput, bottlenecks.
-  \item \textbf{Security and reliability.} Threats, vulnerabilities, resilience.
-  \item \textbf{External factors.} Standards, APIs, dependencies, regulations.
-\end{itemize}
+This thesis proposes a different approach. Instead of showing many products, the bot uses an LLM to \textit{reason about the receiver} and suggest three specific ideas in plain language. This is closer to asking a friend for advice than to browsing a shop.
 
-Support your analysis with diagrams, tables, or references if relevant.
+\section{Stakeholders and User Groups}
+\label{sec:users}
 
-% --- Example figure (replace or remove) ---
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=0.65\linewidth]{b_chapters/chapter1/assets/RNU_large_logo.png}
-  \figsource{Replace with your own system diagram (if needed).}
-  \caption{Example system architecture diagram.}
-  \label{fig:analysis-example}
-\end{figure}
+The system has several types of users. They are described in Table~\ref{tab:users}.
 
-% --- Example table (replace or remove) ---
-{\singlespacing
-\begin{table}[h]
-  \caption{Example system metrics (dummy data)}
-  \label{tab:analysis-example}
-  \centering
-  \begin{tabular}{lrr}
-    \toprule
-    Metric & Baseline value & Target value \\
-    \midrule
-    Response time (ms)  & 240   & 120   \\
-    Uptime (\%)         & 97.5  & 99.9  \\
-    Requests / second   & 350   & 1000  \\
-    \bottomrule
-  \end{tabular}
+\begin{table}[H]
+\centering
+\caption{Main user groups of the Gift Advisor Bot}
+\label{tab:users}
+\begin{tabular}{p{3cm} p{4.5cm} p{6cm}}
+\toprule
+\textbf{User group} & \textbf{Main need} & \textbf{Typical situation} \\
+\midrule
+Young adults (18--30) & Quick ideas for friends and partners & ``My friend's birthday is tomorrow, I have no idea what to buy.'' \\
+Working adults (30--50) & Ideas for colleagues, family, holidays & ``It is March 8th, I need a small gift for three female colleagues.'' \\
+Students & Low-budget creative ideas & ``I have only \$15, but I want a gift that is not boring.'' \\
+People not familiar with the receiver's hobbies & Ideas based on a short profile & ``My new boss invited me to dinner, I do not know him well.'' \\
+Developers and researchers & A working example of LLM-based recommendation & ``How well does prompt engineering work in a real task?'' \\
+\bottomrule
+\end{tabular}
 \end{table}
-}
 
-\section{Context, Constraints, and Risks (Optional)}
-\label{sec:constraints}
-In some topics, it is useful to state the limitations and boundary conditions that affect your system. Examples:
+All five groups share one common need: fast, personalized, and specific advice. The bot is designed to be simple enough for all of them. The first four groups are end users. The fifth group (developers and researchers) is also important, because the experimental part of the thesis adds value for them.
 
-\begin{itemize}[leftmargin=1.2cm]
-  \item Technical constraints (hardware, data availability, standards compliance).
-  \item Research constraints (time, scope, access rights).
-  \item Risks (privacy, security, reliability, scalability challenges).
-\end{itemize}
+\section{Functional Requirements}
+\label{sec:func-reqs}
 
-This subsection can be skipped if not relevant.
+Functional requirements describe what the system must \textit{do}. They are listed in Table~\ref{tab:func-reqs}.
 
-\section{Data and Methods for the Analysis (Example)}
-\label{sec:datamethods}
-Briefly outline what data and methods you are using here.  
-Examples: logs, benchmark datasets, architectural specifications, monitoring tools.  
-Methods could include profiling, simulation, descriptive statistics, or qualitative inspection.  
-Adapt this to your project; the goal is only to show that your analysis has a methodological basis.
+\begin{table}[H]
+\centering
+\caption{Functional requirements of the Gift Advisor Bot}
+\label{tab:func-reqs}
+\begin{tabular}{p{1.5cm} p{4cm} p{8cm}}
+\toprule
+\textbf{ID} & \textbf{Requirement} & \textbf{Description} \\
+\midrule
+FR-1 & Start command & The bot must show a welcome message and a short privacy note on the \texttt{/start} command. \\
+FR-2 & Structured questionnaire & The bot must ask the user about: relation, gender, age group, occasion, budget, and interests. All answers are selected by inline buttons. \\
+FR-3 & Optional free text & After the questionnaire, the bot must ask if the user wants to add more details in their own words. \\
+FR-4 & Prompt construction & The bot must build a prompt from the user profile using one of the four strategies (Naive, Constrained, CoT, Persona). \\
+FR-5 & LLM call & The bot must send the prompt to the Grok API and receive an answer. \\
+FR-6 & Formatted output & The bot must return three gift ideas in a clear format: name, short reason, approximate price. \\
+FR-7 & User feedback & The bot must ask the user to rate the answer on three scales (relevance, creativity, specificity) plus an optional comment. \\
+FR-8 & Session storage & The bot must save every session in the SQLite database: user profile, strategy used, LLM answer, feedback. \\
+FR-9 & Help command & The bot must show a list of commands and a short usage example on the \texttt{/help} command. \\
+FR-10 & 24/7 availability & The bot must run on a cloud platform and respond at any time. \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-\section{Sub-Conclusions (for Chapter~2)}
-\label{sec:subconcl}
-End with a short synthesis (typically 1–3 paragraphs).  
-Example points to cover:
+\section{Non-Functional Requirements}
+\label{sec:nonfunc-reqs}
 
-\begin{itemize}[leftmargin=1.2cm]
-  \item What the analysis revealed (main technical insights).
-  \item Which constraints/risks are most critical for your research.
-  \item How this motivates the next step (empirical study in Chapter~\ref{chap:empirical}).
-\end{itemize}
+Non-functional requirements describe \textit{how well} the system must work. The main ones are listed below.
 
-\paragraph{Reminder.} This subsection is not meant to repeat the whole chapter — just connect the dots and prepare for the next one.
+\textbf{Usability.} The questionnaire must be short. Every answer is selected by tapping a button. No long text input is needed (except the optional free text step).
 
+\textbf{Performance.} The bot must answer in less than 10 seconds in normal conditions. The Grok API itself takes most of this time. A small delay is acceptable, because users understand that AI ``thinks''.
+
+\textbf{Reliability.} The bot must restart automatically after a server reboot. If the Grok API fails, the bot must show a clear error message and not crash.
+
+\textbf{Low cost.} The system must run on a free or low-cost hosting plan. The Grok API budget for the experiment is about \$10--20. This is realistic for a student project.
+
+\textbf{Maintainability.} Prompt templates must be in separate files (one file per strategy). This allows easy editing without changing the main bot code.
+
+\textbf{Privacy.} The bot must not store the names of real people. Only the structured profile (relation, gender, age group, etc.) is saved. No personal data of the gift receiver is collected.
+
+\section{Context, Constraints, and Risks}
+\label{sec:risks}
+
+Several constraints and risks affect the project. They are summarized in Table~\ref{tab:risks}.
+
+\begin{table}[H]
+\centering
+\caption{Main constraints and risks of the project}
+\label{tab:risks}
+\begin{tabular}{p{4cm} p{5cm} p{5cm}}
+\toprule
+\textbf{Constraint / Risk} & \textbf{Description} & \textbf{Mitigation} \\
+\midrule
+Limited budget for Grok API & Each LLM call costs money & Use cheaper Grok model for tests; cache responses during development \\
+LLM hallucinations & The LLM can invent products that do not exist & Constrained prompts; manual check of suggested products \\
+Subjective metrics & ``Creativity'' and ``relevance'' are subjective & Use clear 1--5 scales with descriptions; same person scores all 120 cases \\
+Small user group & Only 5--10 real users available & Combine real users with 30 synthetic personas for stronger results \\
+Telegram API limits & 30 messages per second to different users & Not a problem for a small test bot \\
+Grok API changes & xAI may change prices or API & Document the version of the API used; results are still valid for that version \\
+Time pressure & Bachelor thesis deadline is close & Strict MVP scope; do not add new features during the experiment \\
+Possible inappropriate output & The LLM may suggest something strange & System message in the prompt restricts the output to safe and reasonable ideas \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+These constraints define the realistic boundaries of the project. They also support the decision to keep the scope small and focused on the prompt engineering experiment.
+
+\section{Chapter Summary}
+\label{sec:ch2-summary}
+
+This chapter described the case of gift selection today. The current process is slow, full of clichés, and not personalized. Existing online services show products from catalogues, not advice based on a real receiver profile. An LLM-based Telegram bot can fill this gap.
+
+Five user groups were identified: young adults, working adults, students, people not familiar with the receiver, and developers/researchers. All of them share the need for fast and specific advice.
+
+Ten functional requirements and six non-functional requirements were defined. Eight constraints and risks were described together with mitigation strategies. The bot will be developed as an MVP with clear boundaries.
+
+These requirements form the basis of the system design and implementation, which are presented in Chapter~\ref{ch:development}.

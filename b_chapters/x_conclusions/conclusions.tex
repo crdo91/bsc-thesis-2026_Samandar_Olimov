@@ -1,28 +1,49 @@
-\chapter{Conclusions}
-\label{chap:conclusions}
+\chapter*{Conclusions}
+\addcontentsline{toc}{chapter}{Conclusions}
+\label{ch:conclusions}
 
-The \textbf{Conclusions} chapter must clearly demonstrate that the aim and tasks of the Bachelor Paper have been fulfilled. This chapter is not a repetition of earlier text, but a synthesized summary that links the research aim, tasks, hypothesis, and results.
+This Conclusions chapter shows that the aim and the tasks of the Bachelor Paper have been fulfilled. It is not a repetition of earlier chapters, but a short synthesis that links the research aim, the tasks, the hypothesis, and the results.
 
-When preparing this section, students should ensure that:
+\section*{Confirmation of Tasks}
 
-\begin{itemize}
-  \item \textbf{Confirmation of tasks.} Explicitly state that all tasks set out in the Introduction have been completed. A good practice is to connect each task with the chapter where it was accomplished.  
-  Example:  
-  “Task 1 (literature review) was completed in Chapter 1, providing a theoretical framework for the study. Task 2 (analysis of the case/system) was carried out in Chapter 2. Task 3 (empirical study) was presented in Chapter 3. Task 4 (development of proposals) was fulfilled in Chapter 4.”
-  
-  \item \textbf{Validation of hypothesis.} Clearly indicate whether the research hypothesis (if formulated) was validated or rejected, based on the obtained results.  
-  Example:  
-  “The proposed hypothesis was confirmed, as the empirical results demonstrated …”
-  
-  \item \textbf{Achievement of the aim.} Explicitly state that the aim of the thesis has been reached, supported by the fact that all tasks were accomplished and the hypothesis was addressed.  
-  Example:  
-  “Therefore, it can be concluded that the aim of the thesis has been achieved.”
-  
-  \item \textbf{Avoid repetition.} Do not copy entire findings from chapters. Instead, summarize them concisely to show the logical progression from tasks → results → aim.
-  
-  \item \textbf{Practical and theoretical value.} Conclude with a short statement on the significance of the results (e.g., how the findings may be used in practice or contribute to the field).
-\end{itemize}
+Seven tasks were set in the Introduction. Every task was completed in a specific chapter of the thesis.
 
-\noindent
-\textbf{Recommended final formulation:}
-“All tasks set out in the Introduction were accomplished (Tasks 1–4 correspond to Chapters 1–4). The research hypothesis was validated, and the aim of the thesis has been reached.”
+\textbf{Task 1} (literature review on LLMs, prompt engineering, Telegram bots, and recommendation systems) was completed in Chapter~\ref{ch:literature}, which provided the theoretical foundation for the project.
+
+\textbf{Task 2} (analysis of the current situation of gift recommendation services and the main user groups) was carried out in Chapter~\ref{ch:analysis}, which identified the gap and defined ten functional requirements and six non-functional requirements.
+
+\textbf{Task 3} (design of the bot architecture, the conversation flow, and the SQLite database) was completed in Section~\ref{sec:design} of Chapter~\ref{ch:development}.
+
+\textbf{Task 4} (design of four prompt engineering strategies: Naive, Constrained, Chain-of-Thought, Persona-based) was completed in Section~\ref{sec:strategies}.
+
+\textbf{Task 5} (development of the Telegram bot using Python, aiogram, and the Grok API) was completed and the bot was deployed on PythonAnywhere.
+
+\textbf{Task 6} (preparation of 30 synthetic personas, execution of all four strategies on them, and scoring of the 120 outputs on five metrics) was completed and the results are presented in Section~\ref{sec:results}.
+
+\textbf{Task 7} (real user testing with 8 users and preparation of proposals for future improvement) was completed. The user feedback is summarized in Section~\ref{sec:results} and the proposals are presented in Chapter~\ref{ch:discussion}.
+
+\section*{Validation of the Hypothesis}
+
+The proposed hypothesis was: \textit{advanced prompt engineering strategies (Chain-of-Thought and Persona-based) produce significantly better gift recommendations than naive prompting.}
+
+The experimental results in Chapter~\ref{ch:development} confirm the hypothesis. Compared to the Naive baseline, Chain-of-Thought improves Relevance by 1.30 points (from 3.13 to 4.43 on a 1--5 scale), Creativity by 1.43 points, and Specificity by 2.10 points. Persona-based prompting gives the highest Creativity score (4.53). The hallucination rate of CoT (8.9\%) is about three times lower than that of Naive (27.8\%).
+
+One small refinement was added: Persona-based is the most creative strategy but is also more prone to hallucinations than CoT. CoT is the best overall strategy and was chosen as the default for the bot.
+
+\section*{Achievement of the Aim}
+
+The aim of the thesis was to develop a Telegram bot that uses a Large Language Model for personalized gift recommendations, and to compare four prompt engineering strategies in this task. The bot was successfully built and deployed. The four strategies were implemented and tested on 30 synthetic personas and 8 real users. The differences between the strategies were measured and discussed. Therefore, it can be concluded that the aim of the thesis has been achieved.
+
+\section*{Practical and Theoretical Value}
+
+The work has both practical and theoretical value.
+
+\textbf{Practical value.} The Gift Advisor Bot is a real, working tool that users can open in Telegram and receive three personalized gift ideas in under 10 seconds. The architecture is low-cost (under \$5 per month for the pilot scale) and easy to extend.
+
+\textbf{Theoretical value.} The thesis adds one small but real data point to the discussion about prompt engineering in personalized recommendations. The comparative methodology (30 synthetic personas $\times$ 4 strategies $\times$ 5 metrics) is domain-agnostic and can be applied to other recommendation tasks: books, movies, travel destinations, gifts for specific cultures, or even academic course recommendations.
+
+\textbf{Replicability.} The code, the prompt templates, the 30 personas, and the scoring procedure are all included in the appendices. Any future student can reproduce the experiment or apply the same methodology to a different task.
+
+\section*{Final Recommended Formulation}
+
+All tasks set out in the Introduction were accomplished (Tasks 1--7 correspond to Chapters~\ref{ch:literature}--\ref{ch:discussion}). The research hypothesis was validated, and the aim of the thesis has been reached.

@@ -1,242 +1,305 @@
-\chapter{LaTeX Hints}
-\label{chap:latexhints}
+\chapter{Source Code Listings}
+\label{app:code}
+
+This appendix contains the main source files of the Gift Advisor Bot. The full project (including experiment scripts and 30 personas) is available on GitHub.
+
+\section{Database Module (\texttt{database.py})}
+
+\begin{lstlisting}[language=Python, caption={SQLite database module.}, label={lst:app-db}]
+import json
+import sqlite3
+from pathlib import Path
+
+DB_PATH = Path("gift_bot.db")
 
 
-\newenvironment{twocoldemo}[1][]{%
-  \par\noindent
-  \begin{minipage}[t]{.48\linewidth}\raggedright
-  \textbf{Code}\par\smallskip
-}{%
-  \end{minipage}\hfill
-  \begin{minipage}[t]{.48\linewidth}\raggedright
-  \textbf{Output}\par\smallskip
-  \end{minipage}\par
-}
+def _conn() -> sqlite3.Connection:
+    conn = sqlite3.connect(DB_PATH)
+    conn.row_factory = sqlite3.Row
+    return conn
 
 
+def init_db() -> None:
+    with _conn() as c:
+        c.executescript("""
+            CREATE TABLE IF NOT EXISTS users (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                telegram_id INTEGER NOT NULL UNIQUE,
+                username TEXT,
+                registered_at TEXT DEFAULT CURRENT_TIMESTAMP
+            );
+            CREATE TABLE IF NOT EXISTS sessions (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER NOT NULL,
+                profile_data_json TEXT NOT NULL,
+                strategy_used TEXT NOT NULL,
+                response_json TEXT,
+                timestamp TEXT DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (user_id) REFERENCES users(id)
+            );
+            CREATE TABLE IF NOT EXISTS feedback (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                session_id INTEGER NOT NULL,
+                rating_relevance INTEGER,
+                rating_creativity INTEGER,
+                rating_specificity INTEGER,
+                comment TEXT,
+                FOREIGN KEY (session_id) REFERENCES sessions(id)
+            );
+        """)
 
-This appendix shows small, copy-pasteable examples that compile with this thesis class out of the box. It avoids any template-specific commands from other classes.
 
-\section{Paragraphs and inline emphasis}
-Write one sentence per source line (helps with version control). A blank line starts a new paragraph.
+def save_user(telegram_id: int, username: str) -> int:
+    with _conn() as c:
+        c.execute("INSERT OR IGNORE INTO users (telegram_id, username) "
+                  "VALUES (?, ?)", (telegram_id, username))
+        row = c.execute("SELECT id FROM users WHERE telegram_id = ?",
+                        (telegram_id,)).fetchone()
+        return row["id"]
 
-You can write \emph{emphasized (italics)} and \textbf{bold} text. Use \verb|\url{...}| for clickable links, e.g.\ \url{https://ctan.org}.
 
-\section{Math and equations}
-Inline math: $f(x)=x^2+1$. Numbered display equations use \texttt{amsmath}:
-\begin{align}
-  \label{eq:sample}
-  \int_0^1 x^2\,dx = \frac{1}{3}.
-\end{align}
-We can reference \cref{eq:sample} thanks to \texttt{cleveref}.
+def save_session(telegram_id, profile, strategy, response):
+    user_id = save_user(telegram_id, "")
+    with _conn() as c:
+        cur = c.execute("INSERT INTO sessions "
+                        "(user_id, profile_data_json, strategy_used, response_json) "
+                        "VALUES (?, ?, ?, ?)",
+                        (user_id, json.dumps(profile), strategy, json.dumps(response)))
+        return cur.lastrowid
 
-\section{Figures and subfigures}
-A normal figure:
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=.7\linewidth]{b_chapters/chapter1/assets/RNU_large_logo.png}
-  \caption{Example figure.}
-  \label{fig:example}
-\end{figure}
 
-Two images side-by-side via \texttt{subcaption}:
-\begin{figure}[h]
-  \centering
-  \begin{subfigure}{.47\linewidth}
-    \centering
-    \includegraphics[width=.9\linewidth]{b_chapters/chapter1/assets/RNU_large_logo.png}
-    \caption{Left}
-    \label{fig:left}
-  \end{subfigure}\hfill
-  \begin{subfigure}{.47\linewidth}
-    \centering
-    \includegraphics[width=.9\linewidth]{b_chapters/chapter1/assets/RNU_large_logo.png}
-    \caption{Right}
-    \label{fig:right}
-  \end{subfigure}
-  \caption{Two subfigures.}
-  \label{fig:two-subfigs}
-\end{figure}
-
-We can reference \cref{fig:example,fig:two-subfigs,fig:left}.
-
-\section{Tables}
-A compact table with \texttt{booktabs}:
-\begin{table}[h]
-  \caption{Compact example table}
-  \label{tab:compact}
-  \centering
-  \begin{tabular}{lrr}
-    \toprule
-    Factor & Mean & SD\\
-    \midrule
-    Pay           & 2.0 & 0.5\\
-    Recognition   & 4.0 & 0.7\\
-    Growth        & 5.0 & 0.6\\
-    \bottomrule
-  \end{tabular}
-\end{table}
-
-A long table across multiple pages (\texttt{longtable}):
-\begin{longtable}{llr}
-\caption{Long table example}\label{tab:long}\\
-\toprule
-\textbf{Item} & \textbf{Group} & \textbf{Value}\\
-\midrule
-\endfirsthead
-\toprule
-\textbf{Item} & \textbf{Group} & \textbf{Value}\\
-\midrule
-\endhead
-\bottomrule
-\endfoot
-A & Alpha & 1\\
-B & Alpha & 2\\
-C & Beta  & 3\\
-A & Alpha & 1\\
-B & Alpha & 2\\
-C & Beta  & 3\\
-A & Alpha & 1\\
-B & Alpha & 2\\
-C & Beta  & 3\\
-A & Alpha & 1\\
-B & Alpha & 2\\
-C & Beta  & 3\\
-A & Alpha & 1\\
-B & Alpha & 2\\
-C & Beta  & 3\\
-A & Alpha & 1\\
-B & Alpha & 2\\
-C & Beta  & 3\\
-A & Alpha & 1\\
-B & Alpha & 2\\
-C & Beta  & 3\\
-A & Alpha & 1\\
-B & Alpha & 2\\
-C & Beta  & 3\\
-A & Alpha & 1\\
-B & Alpha & 2\\
-C & Beta  & 3\\
-A & Alpha & 1\\
-B & Alpha & 2\\
-C & Beta  & 3\\
-A & Alpha & 1\\
-B & Alpha & 2\\
-C & Beta  & 3\\
-\end{longtable}
-
-A landscape figure page (\texttt{pdflscape}):
-\begin{landscape}
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=.9\linewidth]{b_chapters/chapter1/assets/RNU_large_logo.png}
-  \caption{Landscape example.}
-\end{figure}
-\end{landscape}
-
-\section{Algorithms and code listings}
-Pseudocode with \texttt{algorithm}+\texttt{algpseudocode}:
-\begin{algorithm}[h]
-\caption{Greedy selection (example)}
-\begin{algorithmic}[1]
-  \State Initialize $S \gets \emptyset$
-  \While{feasible choice exists}
-    \State choose best feasible item $x$
-    \State $S \gets S \cup \{x\}$
-  \EndWhile
-  \State \Return $S$
-\end{algorithmic}
-\label{alg:greedy-app}
-\end{algorithm}
-
-Code with \texttt{listings}:
-% \begin{lstlisting}[language=Python,caption={Bubble sort},label={lst:bubble-app}]
-% def bubble(a):
-%     n = len(a)
-%     for i in range(n-1):
-%         for j in range(n-1-i):
-%             if a[j] > a[j+1]:
-%                 a[j], a[j+1] = a[j+1], a[j]
-% \end{lstlisting}
-{\captionsetup{type=lstlisting}
-\begin{lstlisting}[language=Python,caption={Bubble sort},label={lst:bubble-app}]
-def bubble(a):
-    n = len(a)
-    for i in range(n-1):
-        for j in range(n-1-i):
-            if a[j] > a[j+1]:
-                a[j], a[j+1] = a[j+1], a[j]
+def save_feedback(session_id, rating_relevance, rating_creativity,
+                  rating_specificity, comment):
+    with _conn() as c:
+        c.execute("INSERT INTO feedback (session_id, rating_relevance, "
+                  "rating_creativity, rating_specificity, comment) "
+                  "VALUES (?, ?, ?, ?, ?)",
+                  (session_id, rating_relevance, rating_creativity,
+                   rating_specificity, comment))
 \end{lstlisting}
+
+\section{Grok API Client (\texttt{grok\_client.py})}
+
+\begin{lstlisting}[language=Python, caption={Async client for the Grok API.}, label={lst:app-grok}]
+import os
+import httpx
+from dotenv import load_dotenv
+
+load_dotenv()
+
+GROK_API_KEY = os.getenv("GROK_API_KEY", "")
+GROK_MODEL = os.getenv("GROK_MODEL", "grok-2-latest")
+GROK_URL = "https://api.x.ai/v1/chat/completions"
+TIMEOUT = 60.0
+
+
+async def call_grok(prompt: str, temperature: float = 0.7) -> str:
+    if not GROK_API_KEY:
+        raise RuntimeError("GROK_API_KEY is missing. Set it in .env file.")
+    headers = {
+        "Authorization": f"Bearer {GROK_API_KEY}",
+        "Content-Type": "application/json",
+    }
+    payload = {
+        "model": GROK_MODEL,
+        "messages": [{"role": "user", "content": prompt}],
+        "temperature": temperature,
+    }
+    async with httpx.AsyncClient(timeout=TIMEOUT) as client:
+        response = await client.post(GROK_URL, json=payload, headers=headers)
+        response.raise_for_status()
+        data = response.json()
+        return data["choices"][0]["message"]["content"].strip()
+\end{lstlisting}
+
+\section{Prompt Builder with Four Strategies (\texttt{prompts/builder.py})}
+
+\begin{lstlisting}[language=Python, caption={Prompt builder for the four strategies.}, label={lst:app-prompts}]
+STRATEGIES = ["naive", "constrained", "cot", "persona"]
+
+
+def _profile_block(profile: dict) -> str:
+    interests = ", ".join(profile.get("interests", [])) or "not specified"
+    free_text = profile.get("free_text") or "none"
+    return (f"- Relation: {profile['relation']}\n"
+            f"- Gender: {profile['gender']}\n"
+            f"- Age: {profile['age_group']}\n"
+            f"- Occasion: {profile['occasion']}\n"
+            f"- Budget: {profile['budget']}\n"
+            f"- Interests: {interests}\n"
+            f"- Extra notes: {free_text}")
+
+
+def build_naive_prompt(profile):
+    return f"Suggest a gift for this person:\n{_profile_block(profile)}"
+
+
+def build_constrained_prompt(profile):
+    return f"""Suggest exactly 3 gift ideas for this person.
+
+Profile:
+{_profile_block(profile)}
+
+Rules:
+- Stay within the budget.
+- Do NOT suggest flowers, chocolates, or generic gift cards.
+- Each idea must be a specific product type.
+- For each idea: Name, Why it fits (1 sentence), Approximate price in USD.
+"""
+
+
+def build_cot_prompt(profile):
+    return f"""You are helping someone choose a gift. Think step by step.
+
+Profile:
+{_profile_block(profile)}
+
+Step 1: What does this person likely enjoy?
+Step 2: What types of gifts match those interests AND the budget?
+Step 3: Filter out cliches (flowers, chocolates, generic cards).
+Step 4: Pick 3 specific ideas.
+
+Finally, write the 3 ideas as: Name | Why it fits | Price in USD
+"""
+
+
+def build_persona_prompt(profile):
+    return f"""You are Elena, an expert personal gift advisor with
+20 years of experience. You hate cliches.
+
+Gift receiver profile:
+{_profile_block(profile)}
+
+Give your 3 best recommendations. For each idea:
+- Name of the gift
+- One sentence why it fits this person
+- Approximate price in USD
+"""
+
+
+BUILDERS = {
+    "naive": build_naive_prompt,
+    "constrained": build_constrained_prompt,
+    "cot": build_cot_prompt,
+    "persona": build_persona_prompt,
 }
 
 
+def build_prompt(strategy: str, profile: dict) -> str:
+    if strategy not in BUILDERS:
+        raise ValueError(f"Unknown strategy: {strategy}")
+    return BUILDERS[strategy](profile)
+\end{lstlisting}
 
-We can reference \cref{alg:greedy-app,lst:bubble-app}.
+\section{Bot Entry Point (\texttt{bot.py}, simplified)}
 
-% \section{TikZ and (optional) pgfplots}
-% A tiny TikZ graphic:
-% \begin{figure}[h]
-%   \centering
-%   \begin{tikzpicture}
-%     \draw (0,0) rectangle (2,1);
-%     \foreach \x in {0.25,0.5,...,1.75} \draw (\x,0.5) circle (1pt);
-%   \end{tikzpicture}
-%   \caption{Simple TikZ demo.}
-% \end{figure}
+\begin{lstlisting}[language=Python, caption={Main bot entry point (key parts).}, label={lst:app-bot}]
+import asyncio
+import os
+import time
 
-\par\noindent
-\section{TikZ: Trie data structure diagram}
+from aiogram import Bot, Dispatcher, F
+from aiogram.filters import CommandStart, Command
+from aiogram.fsm.context import FSMContext
+from aiogram.fsm.state import State, StatesGroup
+from aiogram.fsm.storage.memory import MemoryStorage
+from dotenv import load_dotenv
 
-TikZ is a powerwfull diagraming, graphing engine allowing you to script creation of the
-diagrams. Refer to \url{https://tikz.dev/} for online documentation and examples.
+from database import init_db, save_session, save_feedback
+from grok_client import call_grok
+from prompts.builder import build_prompt
 
-\begin{figure}[h]
-  \centering
-  \tikz [>={To[sep]}, rotate=90, xscale=-1,
-         mark/.style={fill=black!50}, mark/.default=]
-    \graph [trie, simple,
-            nodes={circle,draw},
-            edges={nodes={
-                inner sep=1pt, anchor=mid,
-                fill=yellow!20}}, % yellowish background
-            put node text on incoming edges]
-      {
-        root[mark] -> {
-          a -> n -> {
-            g [mark],
-            f -> a -> n -> g [mark]
-          },
-          f -> a -> n -> g [mark],
-          g[mark],
-          n -> {
-            g[mark],
-            f -> a -> n -> g[mark]
-          }
-        },
-        { [edges=red] % highlight one path
-          root -> f -> a -> n
-        }
-      };
-  \caption{Trie data structure demonstrating graph-based TikZ syntax with highlighted path.}
-  \label{fig:tikz-trie-demo}
-\end{figure}
+load_dotenv()
+bot = Bot(token=os.getenv("BOT_TOKEN"))
+dp = Dispatcher(storage=MemoryStorage())
 
 
-If \texttt{pgfplots} is installed (we auto-load it if present), a quick plot:
-\IfFileExists{pgfplots.sty}{%
-\begin{figure}[h]
-  \centering
-  \begin{tikzpicture}
-    \begin{axis}[xlabel=$x$,ylabel={$\,\sin x$}]
-      \addplot {sin(deg(x))};
-    \end{axis}
-  \end{tikzpicture}
-  \caption{Sine plot with pgfplots.}
-\end{figure}
-}{\noindent\emph{(pgfplots not installed — skipping plot.)}}
+class GiftForm(StatesGroup):
+    relation = State()
+    gender = State()
+    age_group = State()
+    occasion = State()
+    budget = State()
+    interests = State()
+    free_text = State()
 
-\section{Cross-references}
-Use \verb|\label{...}| and \verb|\cref{...}| for equations, figures, tables, algorithms, and listings to get correct names and numbers automatically.
 
-\section{Bibliography citation}
-Cite like \cite{porter2008} and list all sources in the “Literature” section (managed by \texttt{biblatex} with the IEEE style in this project).
+@dp.message(CommandStart())
+async def cmd_start(message, state):
+    await state.clear()
+    await message.answer("Welcome to Gift Advisor Bot!")
+
+
+async def generate_recommendation(message, state):
+    data = await state.get_data()
+    profile = {k: data[k] for k in ["relation", "gender", "age_group",
+                                     "occasion", "budget", "interests"]}
+    profile["free_text"] = data.get("free_text", "")
+
+    strategy = os.getenv("DEFAULT_STRATEGY", "cot")
+    prompt = build_prompt(strategy, profile)
+
+    t0 = time.time()
+    answer = await call_grok(prompt)
+    elapsed = time.time() - t0
+
+    save_session(message.from_user.id, profile, strategy,
+                 {"answer": answer, "elapsed": elapsed})
+    await message.answer(f"3 gift ideas:\n\n{answer}")
+
+
+async def main():
+    init_db()
+    await dp.start_polling(bot)
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
+\end{lstlisting}
+
+\section{Experiment Runner (\texttt{experiment/run\_experiment.py})}
+
+\begin{lstlisting}[language=Python, caption={Experiment runner: 30 personas $\times$ 4 strategies.}, label={lst:app-exp}]
+import asyncio
+import json
+import time
+from pathlib import Path
+
+from grok_client import call_grok
+from prompts.builder import build_prompt, STRATEGIES
+
+PERSONAS_PATH = Path("experiment/personas.json")
+RESULTS_JSON = Path("experiment/results.json")
+PAUSE = 1.0
+
+
+async def run_one(persona, strategy):
+    prompt = build_prompt(strategy, persona)
+    t0 = time.time()
+    try:
+        answer = await call_grok(prompt)
+        error = ""
+    except Exception as exc:
+        answer = ""
+        error = str(exc)
+    elapsed = time.time() - t0
+    return {"persona_id": persona["id"], "strategy": strategy,
+            "elapsed_seconds": round(elapsed, 2),
+            "answer": answer, "error": error}
+
+
+async def main():
+    personas = json.loads(PERSONAS_PATH.read_text())
+    results = []
+    for persona in personas:
+        for strategy in STRATEGIES:
+            row = await run_one(persona, strategy)
+            results.append(row)
+            await asyncio.sleep(PAUSE)
+            RESULTS_JSON.write_text(json.dumps(results, indent=2))
+    print(f"Done. {len(results)} cases saved.")
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
+\end{lstlisting}

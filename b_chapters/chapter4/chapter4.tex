@@ -1,67 +1,158 @@
-\chapter{Discussion and Development (Example Chapter~4)}
-\label{chap:discussion}
+\chapter{Discussion and Development}
+\label{ch:discussion}
 
-% --- IMPORTANT NOTE FOR STUDENTS ---
-% This chapter is optional and highly flexible.
-% Some theses combine discussion with results (Chapter~3).
-% Others use it to present proposals, improvements, or an evaluation.
-% Always adapt the content/structure to your project and check with your supervisor.
+This chapter places the results of Chapter~\ref{ch:development} in a wider context. Section~\ref{sec:ext-discussion} compares the developed bot with related work and discusses lessons learned. Section~\ref{sec:proposals} suggests concrete improvements for future versions. Section~\ref{sec:feasibility} evaluates the feasibility and the cost of scaling the project. Section~\ref{sec:ch4-summary} gives the sub-conclusions.
 
-This chapter may serve several possible purposes depending on the nature of your work:  
-(1) discuss your empirical findings in more depth,  
-(2) compare results against theory or prior work,  
-(3) propose improvements, models, or design solutions, or  
-(4) evaluate feasibility or efficiency.  
-If your project is small-scale or self-contained, you may skip this chapter and move directly to the Conclusions.
+\section{Extended Discussion}
+\label{sec:ext-discussion}
 
-\section{Extended Discussion (Optional Example Section)}
-\label{sec:discussion-extended}
-Here you may reflect more deeply on your results than in Chapter~\ref{chap:empirical}.  
-Possible angles include:
+\subsection{Comparison with Related Work}
 
-\begin{itemize}[leftmargin=1.2cm]
-  \item Comparing results with other studies or benchmarks.  
-  \item Highlighting unexpected patterns or anomalies.  
-  \item Theoretical implications: how your findings support or contradict existing models.  
-\end{itemize}
+The results of the experiment can be compared with general findings from the prompt engineering literature. Wei et al.~\cite{wei2022chain} reported that Chain-of-Thought prompting improves reasoning tasks (math, logic) by a large margin. In this thesis, CoT also improved the gift recommendation task, but the improvement was smaller in absolute terms. This is reasonable: gift recommendation is not a strict reasoning task, but a soft preference task. There is no single ``correct'' answer.
 
-\paragraph{Tip.} If your work is primarily an implementation, you may instead use this section to evaluate design trade-offs, architectural choices, or lessons learned.
+The Persona-based result (highest creativity, but more hallucinations) is consistent with the findings of Shanahan et al.~\cite{shanahan2023role}: role-play makes the model more confident, both in good ideas and in invented details.
 
-\section{Proposals / Improvements (Optional Example Section)}
+For LLM-based recommendation, Hou et al.~\cite{hou2024large} showed that LLMs can give reasonable suggestions even without training on user-item data. The bot in this thesis follows the same approach: no user-item dataset, only a short profile and a prompt. The user feedback (75\% would use the bot again) supports the same conclusion in a real-life setting.
+
+\subsection{Why This Approach Works Well}
+
+The bot uses a \textit{narrow domain} (gift recommendation) combined with a \textit{structured profile} (six fields) and a \textit{general-purpose LLM} (Grok). This combination has three practical advantages.
+
+\textbf{Advantage 1: No training data needed.} Classic recommender systems need thousands of user-item interactions to work. The LLM already ``knows'' enough about general human interests, so a short profile is enough to produce reasonable suggestions. This is a huge benefit for small projects.
+
+\textbf{Advantage 2: Easy to update.} If the world changes (new products, new trends), the LLM provider updates the model. The bot code does not need to change.
+
+\textbf{Advantage 3: Multilingual potential.} The same prompt template works in many languages with a small adaptation. The current bot is English-only, but the architecture supports easy extension to Russian or Uzbek.
+
+\subsection{Lessons Learned}
+
+Several lessons came from the development and the experiment.
+
+\textbf{Lesson 1: Prompt details matter a lot.} A small change in the prompt (for example, adding ``do not suggest flowers'') had a clear effect on the output. This shows that prompt engineering is not just a buzzword. It is a real engineering activity with measurable results.
+
+\textbf{Lesson 2: Hallucinations are subtle.} Some hallucinated products were very convincing (real-looking brand names, plausible price tags). Without manual checking, a user could believe the suggestion is real. This is a serious risk for any LLM product in the real market.
+
+\textbf{Lesson 3: Subjective scoring is hard but necessary.} Scoring 120 outputs on three subjective scales took about three hours. The work is tiring, but it is also the only way to compare strategies in a meaningful way. Automatic LLM-based scoring (using one LLM to score another) was considered but rejected for this thesis, because it would add another source of bias.
+
+\textbf{Lesson 4: User testing brings surprises.} The 8 real users did not always agree with the author's manual scoring. Some users liked answers that the author considered ``too creative''. Others wanted very practical ideas. This shows that ``the best'' strategy depends on the user.
+
+\section{Proposals for Improvement}
 \label{sec:proposals}
-In many IT theses, the contribution is not only empirical but also practical.  
-Here you can suggest:
 
-\begin{itemize}[leftmargin=1.2cm]
-  \item Proposed system modifications or design improvements.  
-  \item Prototype features, extensions, or optimizations.  
-  \item Conceptual models or frameworks based on your findings.  
-\end{itemize}
+The bot is a working MVP. Several improvements can make it stronger in the future. The most important proposals are listed below.
 
-Illustrate with diagrams, mockups, or tables if useful. Remember: these are suggestions, not required elements.
+\subsection{Real Marketplace Integration}
 
-\section{Evaluation of Feasibility / Efficiency (Optional Example Section)}
-\label{sec:evaluation}
-Sometimes it makes sense to estimate how well your proposal would work in practice.  
-Examples:
+The current bot only suggests ideas in text. A future version can connect to an online marketplace (Uzum, Olcha, Amazon) and return real product links with photos and prices. This would also remove the hallucination problem, because every suggestion would be linked to a real product.
 
-\begin{itemize}[leftmargin=1.2cm]
-  \item Performance evaluation (e.g., runtime, memory use, scalability).  
-  \item Cost/benefit trade-offs (time, resources, usability).  
-  \item Risks and limitations of implementation.  
-\end{itemize}
+\subsection{Image and Voice Input}
 
-This section can be skipped if it does not apply to your project.
+A future version can accept a photo of the receiver or a short voice description. Modern multimodal LLMs (e.g., GPT-4o, Gemini, Claude 3.5) can process images and audio. This would make the questionnaire even shorter: the user just sends one photo and one voice message.
 
-\section{Sub-Conclusions (for Chapter~4)}
-\label{sec:subconcl4}
-Close with a short synthesis that ties together the discussion and proposals.  
-Example points:
+\subsection{Multilingual Support}
 
-\begin{itemize}[leftmargin=1.2cm]
-  \item What your deeper reflection adds beyond the raw results.  
-  \item Which improvements or models are most promising.  
-  \item How these insights prepare the way for the \textbf{Conclusions chapter}.  
-\end{itemize}
+The current bot answers in English. Most users in Uzbekistan speak Russian and Uzbek. A future version can detect the user language automatically and translate both the questions and the answers.
 
-\paragraph{Reminder.} The “big picture” statements — confirmation of tasks, validation of the hypothesis, and achievement of the aim — belong in the \textbf{Conclusions chapter}, not here.
+\subsection{Social Media Integration}
+
+The original plan included a placeholder for ``share Instagram link''. A real integration with Meta would require official approval and is out of scope for a bachelor thesis. A future version can use the public profile data (interests, recent likes) to personalize the recommendations even more.
+
+\subsection{Hybrid Strategy: Persona + Constrained Filter}
+
+The experiment showed an interesting trade-off: Persona is the most creative, but also the most ``hallucinating''. A future version can combine the two strategies in two steps. First, Persona generates 5 creative ideas. Second, a Constrained prompt filters out the invented products. This would keep the creativity high and reduce the hallucination rate at the same time.
+
+\subsection{Extended Architecture Diagram}
+
+Figure~\ref{fig:ext-arch} shows the proposed extended architecture with the new components (marketplace API, multimodal input, language detection, hybrid prompt pipeline).
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    node distance=0.7cm and 0.9cm,
+    box/.style={rectangle, draw, rounded corners, minimum width=2.2cm, minimum height=0.9cm, align=center, font=\scriptsize},
+    ext/.style={rectangle, draw, dashed, rounded corners, minimum width=2.2cm, minimum height=0.9cm, align=center, font=\scriptsize},
+    new/.style={rectangle, draw, fill=yellow!30, rounded corners, minimum width=2.2cm, minimum height=0.9cm, align=center, font=\scriptsize},
+    arrow/.style={-Stealth, thick}
+]
+    \node[box] (user) {User};
+    \node[new, right=of user] (lang) {Language\\detection};
+    \node[new, right=of lang] (multi) {Multimodal\\input};
+    \node[box, below=of lang] (bot) {Bot core\\(aiogram)};
+    \node[new, below=of multi] (pipe) {Hybrid prompt\\pipeline};
+    \node[ext, right=of pipe] (grok) {Grok API};
+    \node[new, below=of pipe] (market) {Marketplace\\API};
+    \node[box, below=of bot] (db) {SQLite DB};
+
+    \draw[arrow] (user) -- (lang);
+    \draw[arrow] (lang) -- (multi);
+    \draw[arrow] (multi) -- (pipe);
+    \draw[arrow] (lang) -- (bot);
+    \draw[arrow] (bot) -- (pipe);
+    \draw[arrow] (pipe) -- (grok);
+    \draw[arrow] (pipe) -- (market);
+    \draw[arrow] (bot) -- (db);
+\end{tikzpicture}
+\caption{Proposed extended architecture (new components in yellow).}
+\label{fig:ext-arch}
+\end{figure}
+
+\section{Evaluation of Feasibility and Efficiency}
+\label{sec:feasibility}
+
+This section evaluates whether the project can grow to a larger scale, and what the costs and the risks of scaling are.
+
+\subsection{Cost Analysis}
+
+The main cost of the bot is the Grok API calls. The hosting on PythonAnywhere free tier is currently zero. The Telegram Bot API is free. Table~\ref{tab:cost} shows an estimate of monthly cost for different user volumes.
+
+\begin{table}[H]
+\centering
+\caption{Estimated monthly cost at different user volumes}
+\label{tab:cost}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Users/month} & \textbf{Sessions/month} & \textbf{Grok cost} & \textbf{Hosting cost} & \textbf{Total / month} \\
+\midrule
+50 (current pilot) & 100  & \$0.20 & \$0 (free tier) & \textbf{\$0.20} \\
+1\,000              & 2\,000  & \$4    & \$0 (free tier) & \textbf{\$4} \\
+10\,000             & 20\,000 & \$40   & \$5 (paid tier) & \textbf{\$45} \\
+100\,000            & 200\,000 & \$400 & \$20 (small VPS) & \textbf{\$420} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The cost grows almost linearly with the number of sessions. At 100\,000 users per month, the total cost is around \$420. This is small for a real product, but it is too high for a free student project. For a real launch, the bot would need a freemium model: free for a few requests per day, paid for unlimited use.
+
+\subsection{Performance and Scalability}
+
+The aiogram library uses asynchronous code. One Python process can handle hundreds of concurrent users without a problem. The bottleneck is not the bot itself, but the Grok API. If many users send requests at the same time, they may hit the rate limit of the API.
+
+For a small-scale deployment (up to ~1\,000 users per day), the current setup is enough. For a larger deployment, three steps are needed:
+\begin{enumerate}
+    \item Move from SQLite to PostgreSQL for stronger concurrency.
+    \item Add a Redis cache for frequent profiles.
+    \item Add a worker queue (Celery or arq) to handle bursts of requests.
+\end{enumerate}
+
+\subsection{Risks of Expansion}
+
+The bot can grow, but several risks need attention.
+
+\textbf{Risk 1: API price changes.} xAI can change the price of the Grok API at any time. A future version should be ready to switch to a different LLM provider (OpenAI, Anthropic, local Llama) with minimal code changes.
+
+\textbf{Risk 2: Quality drift.} New versions of Grok may behave differently. The prompt templates that work today may need to be re-tuned for new models. This is a normal part of working with LLMs.
+
+\textbf{Risk 3: Content moderation.} As the user base grows, some users will try to ``trick'' the bot (asking for inappropriate gifts). A simple content filter is needed before sending the prompt to the LLM.
+
+\textbf{Risk 4: Privacy and GDPR.} If the bot is deployed in Europe, GDPR rules apply. The current MVP does not collect personal data of real people, only structured profiles, so the risk is low. However, the SQLite database stores Telegram IDs, which are pseudonymous identifiers. A real product needs a clear privacy policy.
+
+\section{Sub-Conclusions}
+\label{sec:ch4-summary}
+
+This chapter discussed the results in a wider context. The findings of this thesis are consistent with the general literature on prompt engineering: Chain-of-Thought helps reasoning, Persona-based prompts boost creativity but increase hallucinations.
+
+The key lesson is that prompt engineering is a real and measurable activity, not just a buzzword. Small changes in the prompt lead to clear and significant changes in the output quality.
+
+Six concrete improvements were proposed for future versions: marketplace integration, multimodal input, multilingual support, social media integration, hybrid prompt pipeline, and an extended architecture. The cost analysis shows that the bot can grow to 10\,000 users per month for less than \$50 per month. Four main risks of expansion were identified: API price changes, quality drift, content moderation, and privacy.
+
+These insights prepare the final Conclusions chapter, which confirms the tasks, validates the hypothesis, and states the achievement of the aim of the thesis.

@@ -1,0 +1,78 @@
+\chapter{Synthetic User Personas}
+\label{app:personas}
+
+This appendix contains the 30 synthetic user personas used in the experiment. Each persona is a short text description of a fictional gift receiver. The personas cover different relations, gender, age groups, occasions, budgets, and interests to test the bot in a wide range of cases.
+
+\section{List of 30 Personas}
+
+\begin{enumerate}
+    \item \textbf{P1.} Friend, female, 26--35, birthday, medium budget. Interests: yoga, travel. \textit{Notes: she loves quiet weekends in nature.}
+    \item \textbf{P2.} Family (father), male, 50+, anniversary, high budget. Interests: fishing, books. \textit{Notes: retired teacher.}
+    \item \textbf{P3.} Colleague, male, 36--50, holiday, low budget. Interests: coffee, sports. \textit{Notes: small office gift.}
+    \item \textbf{P4.} Partner, female, 18--25, anniversary, medium budget. Interests: art, music. \textit{Notes: she paints in her free time.}
+    \item \textbf{P5.} Friend, male, 26--35, birthday, medium budget. Interests: games, tech. \textit{Notes: huge fan of strategy games.}
+    \item \textbf{P6.} Family (mother), female, 50+, holiday, medium budget. Interests: cooking, books. \textit{Notes: loves gardening too.}
+    \item \textbf{P7.} Colleague, female, 26--35, birthday, low budget. Interests: coffee, fashion. \textit{Notes: she always wears nice scarves.}
+    \item \textbf{P8.} Friend, any gender, 18--25, no occasion, low budget. Interests: music, tech. \textit{Notes: student on a budget.}
+    \item \textbf{P9.} Partner, male, 26--35, birthday, high budget. Interests: travel, cooking. \textit{Notes: just started learning Italian cuisine.}
+    \item \textbf{P10.} Family (younger brother), male, 18--25, holiday, medium budget. Interests: sports, games.
+    \item \textbf{P11.} Friend, female, 36--50, birthday, high budget. Interests: art, travel. \textit{Notes: just came back from Italy.}
+    \item \textbf{P12.} Colleague (manager), male, 50+, holiday, medium budget. Interests: books, coffee. \textit{Notes: very quiet person.}
+    \item \textbf{P13.} Friend, female, 26--35, no occasion, low budget. Interests: cooking, music. \textit{Notes: just moved to a new flat.}
+    \item \textbf{P14.} Family (cousin), female, 18--25, birthday, medium budget. Interests: fashion, art. \textit{Notes: fashion design student.}
+    \item \textbf{P15.} Partner, female, 36--50, anniversary, high budget. Interests: travel, books. \textit{Notes: wants to learn Japanese.}
+    \item \textbf{P16.} Friend (of father), male, 50+, birthday, medium budget. Interests: fishing, cooking.
+    \item \textbf{P17.} Colleague, female, 36--50, anniversary, low budget. Interests: coffee, books. \textit{Notes: work anniversary gift.}
+    \item \textbf{P18.} Family (uncle), male, 36--50, holiday, high budget. Interests: tech, sports. \textit{Notes: big fan of running.}
+    \item \textbf{P19.} Friend, any gender, 26--35, birthday, medium budget. Interests: games, art. \textit{Notes: tabletop role-playing games fan.}
+    \item \textbf{P20.} Partner, male, 18--25, no occasion, low budget. Interests: music, fashion. \textit{Notes: first month together.}
+    \item \textbf{P21.} Family (sister), female, 26--35, birthday, medium budget. Interests: yoga, cooking. \textit{Notes: just had a baby.}
+    \item \textbf{P22.} Friend, male, 36--50, holiday, medium budget. Interests: sports, tech. \textit{Notes: started cycling this year.}
+    \item \textbf{P23.} Colleague, any gender, 26--35, no occasion, low budget. Interests: coffee, music. \textit{Notes: shares office music playlist.}
+    \item \textbf{P24.} Family (grandfather), male, 50+, birthday, high budget. Interests: books, travel. \textit{Notes: history lover.}
+    \item \textbf{P25.} Partner, female, 26--35, holiday, high budget. Interests: fashion, travel. \textit{Notes: travelling to Paris next month.}
+    \item \textbf{P26.} Friend, female, 18--25, birthday, low budget. Interests: art, books. \textit{Notes: she draws comics.}
+    \item \textbf{P27.} Colleague, male, 26--35, birthday, medium budget. Interests: games, coffee. \textit{Notes: plays games together after work.}
+    \item \textbf{P28.} Family (aunt), female, 36--50, anniversary, high budget. Interests: cooking, art. \textit{Notes: ceramic studio teacher.}
+    \item \textbf{P29.} Friend, male, 26--35, no occasion, medium budget. Interests: travel, music. \textit{Notes: plays acoustic guitar.}
+    \item \textbf{P30.} Partner, any gender, 26--35, birthday, medium budget. Interests: tech, books. \textit{Notes: loves science fiction novels.}
+\end{enumerate}
+
+\section{Design of the Persona Set}
+
+The personas were designed to cover the search space of typical bot inputs. Table~\ref{tab:persona-stats} shows how the 30 personas are distributed across the main profile fields.
+
+\begin{table}[H]
+\centering
+\caption{Distribution of personas across profile fields}
+\label{tab:persona-stats}
+\begin{tabular}{llc}
+\toprule
+\textbf{Field} & \textbf{Value} & \textbf{Count} \\
+\midrule
+Relation & friend & 9 \\
+         & family & 8 \\
+         & partner & 6 \\
+         & colleague & 7 \\
+\midrule
+Gender & female & 14 \\
+       & male & 12 \\
+       & any & 4 \\
+\midrule
+Age group & 18--25 & 6 \\
+          & 26--35 & 13 \\
+          & 36--50 & 6 \\
+          & 50+ & 5 \\
+\midrule
+Occasion & birthday & 12 \\
+         & anniversary & 5 \\
+         & holiday & 7 \\
+         & no occasion & 6 \\
+\midrule
+Budget & low & 8 \\
+       & medium & 14 \\
+       & high & 8 \\
+\bottomrule
+\end{tabular}
+\end{table}
+The set is intentionally balanced: every value of every field has at least four examples. This way, no strategy can ``win'' just because it is good at one specific case. Every strategy is tested on a wide range of profiles.

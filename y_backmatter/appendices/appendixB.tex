@@ -1,41 +1,106 @@
-\chapter{Expert Evaluation Criteria for Final Thesis Quality}
-\label{chap:appendixB}
+\chapter{User Survey and Raw Experimental Data}
+\label{app:survey}
 
-\begin{longtable}{@{}r p{0.72\linewidth} c@{}}
-\caption{Expert evaluation criteria for the quality of the final thesis}\label{tab:expert-criteria}\\
-\toprule
-\textbf{No.} & \textbf{Criterion title and content} & \textbf{Points}\\
-\midrule
-\endfirsthead
+This appendix contains the raw data of the user testing and a sample of the manual scoring sheet.
 
-\toprule
-\textbf{No.} & \textbf{Criterion title and content} & \textbf{Points}\\
-\midrule
-\endhead
+\section{User Survey Questions}
 
-\bottomrule
-\endfoot
-
-1 & Conformity of the thesis title to the research area; style; correctness of key words. & 5\\
-2 & Thesis structure: presence of the essential chapters. & 5\\
-3 & Level of research motivation grounded in the contemporary state of the problem. & 5\\
-4 & Quality and correctness of the theses to be defended; novelty of the main results. & 5\\
-5 & Adequacy of the research methodology to the formulated research problem; appropriateness of the theoretical framework. & 5\\
-6 & Originality of the research problem. & 5\\
-7 & Use of constructive methods (including mathematical and computational) in solving the research problems. & 5\\
-8 & Quality of conclusions: justification and correctness. & 5\\
-9 & Quality of thesis formatting, literary style, compliance with standards and regulations. & 5\\
-10 & Quality of the list of references: currency, authority, presence of sources in foreign languages. & 5\\
-
-\end{longtable}
-
-
-\paragraph{Note.}
+After interacting with the bot, every test user was asked to fill in a short questionnaire. The questions are listed below.
 
 \begin{enumerate}
-  \item All criteria are mandatory.
-  \item Final thesis evaluation: \\
-    \textless{} 25 points — the thesis does not meet the requirements; \\
-    25--35 points — the thesis requires improvement; \\
-    36--50 points — the thesis is eligible for defense.
+    \item Please rate the \textbf{relevance} of the gift ideas (1 = not relevant at all, 5 = very relevant).
+    \item Please rate the \textbf{creativity} of the gift ideas (1 = clichéd, 5 = very original).
+    \item Please rate the \textbf{specificity} of the gift ideas (1 = vague, 5 = very concrete).
+    \item Would you use this bot again? (Yes / Maybe / No)
+    \item What feature would you add to the bot? (open question, optional)
 \end{enumerate}
+
+\section{User Survey Raw Answers}
+
+Eight users from the personal network of the author tested the bot during the pilot test. All eight used the default strategy (CoT). Table~\ref{tab:survey-raw} shows the raw answers. The users are anonymized as U1--U8.
+
+\begin{table}[H]
+\centering
+\caption{Raw user survey answers}
+\label{tab:survey-raw}
+\begin{tabular}{ccccc}
+\toprule
+\textbf{User} & \textbf{Relevance} & \textbf{Creativity} & \textbf{Specificity} & \textbf{Use again?} \\
+\midrule
+U1 & 5 & 4 & 4 & Yes \\
+U2 & 4 & 4 & 5 & Yes \\
+U3 & 5 & 5 & 4 & Yes \\
+U4 & 4 & 3 & 4 & Maybe \\
+U5 & 5 & 4 & 5 & Yes \\
+U6 & 3 & 4 & 3 & Maybe \\
+U7 & 5 & 5 & 4 & Yes \\
+U8 & 4 & 3 & 4 & Yes \\
+\midrule
+\textbf{Mean} & \textbf{4.38} & \textbf{4.00} & \textbf{4.12} & 6 Yes / 2 Maybe \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Selected Comments from Users}
+
+A short selection of the open comments left by the test users:
+
+\begin{itemize}
+    \item U1: ``Very useful, especially for last-minute gift ideas.''
+    \item U2: ``I liked that the bot gave a price range. Would be great to have a link to buy.''
+    \item U3: ``The ideas felt personal, not generic.''
+    \item U4: ``Could you add support for Uzbek language?''
+    \item U6: ``Some ideas were a bit strange for our culture (yoga retreats).''
+    \item U7: ``Quick and easy. I would use it for birthday gifts.''
+\end{itemize}
+
+\section{Sample of the Manual Scoring Sheet}
+
+Table~\ref{tab:scoring-sample} shows a sample of 12 rows (out of 120) from the manual scoring sheet. The full sheet is available in the project repository as \texttt{experiment/scoring\_sheet.csv}.
+
+\begin{table}[H]
+\centering
+\caption{Sample of the 120-row manual scoring sheet}
+\label{tab:scoring-sample}
+\small
+\begin{tabular}{clccccc}
+\toprule
+\textbf{Persona} & \textbf{Strategy} & \textbf{Rel} & \textbf{Cre} & \textbf{Spec} & \textbf{Halluc} & \textbf{Time (s)} \\
+\midrule
+1  & naive       & 3 & 2 & 2 & 1 & 3.8 \\
+1  & constrained & 4 & 3 & 4 & 0 & 4.3 \\
+1  & cot         & 5 & 4 & 4 & 0 & 7.1 \\
+1  & persona     & 4 & 5 & 4 & 1 & 5.6 \\
+\midrule
+2  & naive       & 3 & 2 & 2 & 1 & 4.1 \\
+2  & constrained & 4 & 3 & 5 & 0 & 4.6 \\
+2  & cot         & 4 & 4 & 4 & 0 & 6.8 \\
+2  & persona     & 4 & 5 & 3 & 1 & 5.4 \\
+\midrule
+3  & naive       & 3 & 3 & 2 & 1 & 3.7 \\
+3  & constrained & 4 & 4 & 4 & 1 & 4.2 \\
+3  & cot         & 4 & 4 & 4 & 0 & 7.0 \\
+3  & persona     & 4 & 5 & 4 & 1 & 5.8 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Aggregated Experimental Results}
+
+The full aggregated results are repeated below for reference (also shown in Section~\ref{sec:results}).
+
+\begin{table}[H]
+\centering
+\caption{Aggregated results per strategy (30 personas each)}
+\label{tab:app-results}
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Strategy} & \textbf{Relevance} & \textbf{Creativity} & \textbf{Specificity} & \textbf{Halluc \%} & \textbf{Time, s} \\
+\midrule
+Naive       & 3.13 & 2.47 & 2.10 & 27.8\% & 3.98 \\
+Constrained & 4.10 & 3.43 & 4.20 & 18.9\% & 4.40 \\
+CoT         & 4.43 & 3.90 & 4.20 & 8.9\%  & 6.99 \\
+Persona     & 4.17 & 4.53 & 3.77 & 21.1\% & 5.61 \\
+\bottomrule
+\end{tabular}
+\end{table}

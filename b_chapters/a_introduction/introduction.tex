@@ -1,34 +1,140 @@
-\unchapter{Introduction}
+\chapter*{Introduction}
+\addcontentsline{toc}{chapter}{Introduction}
+\label{ch:introduction}
 
-The introduction outlines the relevance of the chosen topic, its aim, object and subject of study, formulated research problem, research tasks, and applied methods. It also may include the research hypothesis and information about the approbation (presentation, publication, or expert review) of the results.  
+Choosing a gift is a common but difficult task in daily life. People often want to give a good gift, but they do not know what to choose. They think about the age, gender, hobbies, and budget of the receiver. They look in many online shops. They ask friends for advice. This takes a lot of time and energy. In many cases, the final choice is still a cliché gift, such as flowers, chocolates, or a generic gift card.
 
-\textbf{Topicality of the problem:}  
-Briefly describe why the selected topic is important and relevant. This may include current challenges in the industry, social or economic context, scientific novelty, or practical application.  
+Today, Artificial Intelligence (AI) can help with this task. A new type of AI program is called a Large Language Model (LLM). A Large Language Model is a computer program that learns from a lot of text. It can read a question and write an answer in natural language. Examples of popular LLMs are ChatGPT, Claude, and Grok. These models can already help with writing emails, translation, and simple advice.
 
-\textbf{Aim of the study:}  
-Clearly define the main purpose of the work. The aim is usually expressed in one sentence and should not be too broad or too narrow. Example: “The aim of the study is to develop recommendations for improving [system/process/topic] in [context/field].”  
+In this thesis, an LLM is used as a gift advisor. The user talks with a Telegram bot. Telegram is a popular messenger in Uzbekistan and many other countries. A Telegram bot is a small program that works inside Telegram and answers user commands. The bot asks the user a few simple questions about the gift receiver. Then the bot sends this information to the Grok LLM by xAI. The LLM returns three personalized gift ideas. The bot shows the ideas to the user inside the Telegram chat.
 
-\textbf{Object of the study:}  
-Indicate the broader field or phenomenon under investigation (e.g., “entrepreneurial activity,” “information systems,” “educational processes”).  
+But there is a problem. The quality of LLM answers depends a lot on how we ask the question. The way we write the question for the LLM is called a \textit{prompt}. The work of designing good prompts is called \textit{prompt engineering}. A weak prompt gives clichéd or wrong answers. A strong prompt gives clear, creative, and useful answers. For this reason, this thesis does not only build a bot. It also studies and compares four different prompt engineering strategies for the gift recommendation task.
 
-\textbf{Subject of the study:}  
-Specify the narrower aspect within the object that will be analyzed (e.g., “employee motivation system,” “data warehouse design methodology,” “student performance evaluation methods”).  
+\section*{Topicality of the problem}
+\addcontentsline{toc}{section}{Topicality of the problem}
 
-\textbf{Research problem:}  
-Formulate the main problem that the study addresses. This can be expressed as a contradiction, challenge, or knowledge gap (e.g., “high staff turnover,” “lack of effective data integration,” “insufficient methodological guidance”).  
+The topic is relevant for three main reasons.
 
-\textbf{Tasks of the study:}  
-List the specific steps needed to achieve the aim. Tasks are usually formulated as 4–6 items and should correspond directly to the structure of the thesis. For example:  
-1. Review theoretical approaches and relevant literature.  
-2. Analyze the chosen case, field, or system.  
-3. Conduct empirical or practical research.  
-4. Develop proposals, models, or improvements and evaluate their efficiency.  
+First, generative AI is one of the most active areas in computer science in 2024--2026. New LLMs are released every few months. Prompt engineering became a new and important practical skill. Many companies look for people who know how to use LLMs in real tasks.
 
-\textbf{Hypothesis (if applicable):}  
-Formulate a testable statement about the expected outcome. Example: “Implementing the proposed measures will improve service quality and reduce costs.”  
+Second, personalized recommendations are needed in many areas, not only for gifts. The same idea can be used for book, movie, or travel recommendations. So, the methods of this thesis can be reused in other projects.
 
-\textbf{Research methods:}  
-Indicate the methods used in the work (e.g., literature analysis, surveys, experiments, case studies, statistical analysis, modelling, comparative analysis).  
+Third, gift selection is a real daily problem. A simple bot that gives good ideas in one minute is more useful than reading many shop websites for one hour. Such a bot is also low-cost: it does not need its own shop and does not sell products. It is just an information service.
 
-\textbf{Approbation of the study (if any):}  
-Mention where and how the results have been presented or evaluated (e.g., student conferences, publications, expert reviews).  
+The topic is also suitable for an Information Systems bachelor thesis. It includes problem analysis, system design, database design, software development, prompt design, an experiment with measurements, user testing, and evaluation. All these parts match the study programme of Information Systems.
+
+\section*{Aim of the study}
+\addcontentsline{toc}{section}{Aim of the study}
+
+The aim of the study is to develop a Telegram bot that uses a Large Language Model (Grok by xAI) for personalized gift recommendations, and to compare four prompt engineering strategies (Naive, Constrained, Chain-of-Thought, and Persona-based) in this task.
+
+\section*{Object of the study}
+\addcontentsline{toc}{section}{Object of the study}
+
+The object of the study is the application of Large Language Models in personalized recommendation systems.
+
+\section*{Subject of the study}
+\addcontentsline{toc}{section}{Subject of the study}
+
+The subject of the study is the development of an AI-powered Telegram bot for gift recommendations and the comparative evaluation of prompt engineering strategies for this task.
+
+\section*{Research problem}
+\addcontentsline{toc}{section}{Research problem}
+
+The research problem is the lack of a tested approach to prompt engineering for AI-based gift advisors. Modern LLMs are powerful, but they have known weaknesses. They can hallucinate, which means they invent products that do not exist. They can lose context inside a long conversation. They can give clichéd ideas, such as ``flowers'' or ``chocolates'', instead of specific and creative suggestions.
+
+Today, it is not clear which prompt engineering strategy works best for the gift recommendation task. Most papers about prompt engineering test general tasks, such as math or reasoning. There are no clear answers for the practical task of personalized gift advice. This thesis tries to fill this gap with a small but real experiment.
+
+\section*{Tasks of the study}
+\addcontentsline{toc}{section}{Tasks of the study}
+
+To achieve the aim of the study, the following tasks are defined:
+
+\begin{enumerate}
+    \item To review literature about Large Language Models, prompt engineering, Telegram bots, and recommendation systems.
+    \item To analyze the current situation of gift recommendation services and the main user groups.
+    \item To design the architecture of the bot, the conversation flow, and the SQLite database structure.
+    \item To design four prompt engineering strategies (Naive, Constrained, Chain-of-Thought, Persona-based) for the gift recommendation task.
+    \item To develop the Telegram bot using Python, the aiogram library, and the Grok API.
+    \item To prepare 30 synthetic user personas and run all four strategies on them (120 test cases). To score every output on five metrics: relevance, creativity, specificity, hallucination rate, and response time.
+    \item To test the bot with 5--10 real users and collect their feedback. To compare results and prepare proposals for future improvement of the system.
+\end{enumerate}
+
+\section*{Hypothesis}
+\addcontentsline{toc}{section}{Hypothesis}
+
+The hypothesis of the study is that advanced prompt engineering strategies (Chain-of-Thought and Persona-based) produce significantly better gift recommendations than naive prompting. ``Better'' means higher scores on relevance, creativity, and specificity, and a lower hallucination rate, measured on the same set of user profiles.
+
+\section*{Research methods}
+\addcontentsline{toc}{section}{Research methods}
+
+Several research methods are used in this thesis.
+
+The first method is \textit{literature analysis}. Literature analysis means reading and studying books, articles, documentation, and online sources. This method is used to understand LLMs, prompt engineering, Telegram bots, and recommendation systems.
+
+The second method is \textit{system design}. System design means planning how the system will work before coding. In this work, system design includes the conversation flow, the bot commands, the database tables, the prompt templates, and the general architecture of the system.
+
+The third method is \textit{software development}. Software development means creating a working program. In this thesis, the bot is developed in Python. Python is a programming language. The bot uses aiogram. Aiogram is a Python library for Telegram bots. A library is ready-made code that helps developers build software faster. The bot calls the Grok API. The Grok API is an interface that lets the bot send a prompt to the Grok LLM and receive an answer.
+
+The fourth method is \textit{comparative experiment}. A comparative experiment means running the same task in different conditions and comparing the results. In this work, 30 synthetic personas are run through all four prompt strategies. This gives 120 test cases. Every case is scored on five metrics.
+
+The fifth method is \textit{user testing}. The bot is tested by 5--10 real users. The users give feedback on relevance, creativity, and specificity of the recommendations.
+
+The sixth method is \textit{descriptive statistics}. Descriptive statistics means counting, averaging, and comparing numbers. In this thesis, the average scores of the four strategies are compared in tables and charts.
+
+\section*{Description of the developed system}
+\addcontentsline{toc}{section}{Description of the developed system}
+
+The developed system is a Telegram bot called \textit{Gift Advisor Bot}. It uses Python as the main programming language. It uses the aiogram library to communicate with Telegram. It uses the Grok API by xAI to generate gift ideas. It uses SQLite as the database. SQLite is a small database system. It stores data in one file. SQLite is suitable for this project because the data volume is small and a separate database server is not needed.
+
+The user interacts with the bot through a short questionnaire. The user answers questions about the gift receiver: the relation (friend, family, partner, colleague), the gender, the age group, the occasion, the budget, and the interests. Then the user can add free text in their own words. The bot sends all this information to the Grok LLM and returns three gift ideas with short explanations. After that, the bot asks the user to rate the answer on three short scales.
+
+The system is developed as a Minimum Viable Product (MVP). An MVP is the first working version of a system. It contains only the most important functions. In the scope of this bachelor thesis, the MVP approach is suitable because the goal is to build a working and testable system, not a large commercial platform.
+
+\section*{Practical value of the study}
+\addcontentsline{toc}{section}{Practical value of the study}
+
+The practical value of this work has three sides.
+
+\textbf{For users}, the bot saves time. A user can get three personalized gift ideas in less than one minute, without searching many websites.
+
+\textbf{For developers}, the thesis shows a clear comparison of four prompt strategies. Future developers can choose the best strategy for similar tasks (book, movie, travel recommendations) without doing the same experiment again.
+
+\textbf{For the research field}, the thesis adds one small but real data point to the discussion about prompt engineering in personalized recommendations. The methodology is domain-agnostic and can be applied to other tasks.
+
+The architecture also allows future improvement. The system can later include real social media integration, image input, voice input, and multilingual support. These functions are not part of the current implementation. They are discussed as future work.
+
+\section*{Approbation of the study}
+\addcontentsline{toc}{section}{Approbation of the study}
+
+The results of the study were tested in two ways. First, an automatic experiment with 30 synthetic personas and 4 prompt strategies was carried out. The 120 outputs were scored on five metrics. Second, the bot was tested in a small pilot test with 5--10 real users from the student's personal network. The users checked the main bot functions and gave simple feedback about usability and usefulness. The results of both tests are used in Chapter 3 of the thesis.
+
+The work can also be presented during the bachelor thesis defence at Riga Nordic University. The defence will include the problem, aim, developed system, prompt strategies, experimental results, and future improvements.
+
+\section*{Defended thesis}
+\addcontentsline{toc}{section}{Defended thesis}
+
+The following defended thesis statements are proposed:
+
+\begin{enumerate}
+    \item \textit{Has been offered} a new architecture of an AI-powered Telegram bot that combines a structured questionnaire with free-form text input and LLM-based gift recommendation generation.
+    \item \textit{Has been modified} traditional prompt engineering approaches for the specific task of gift recommendation, with focus on hallucination reduction, context retention, and output grounding.
+    \item \textit{Has been suggested} a comparative methodology for evaluating four different prompting strategies (Naive, Constrained, Chain-of-Thought, Persona-based) in the domain of personalized recommendations, with extensibility points for social media integration.
+\end{enumerate}
+
+\section*{Structure of the thesis}
+\addcontentsline{toc}{section}{Structure of the thesis}
+
+The thesis consists of an introduction, four main chapters, conclusions, literature, and appendices.
+
+The Introduction explains the topicality of the problem, the aim, the object, the subject, the research problem, the tasks, the hypothesis, the methods, the approbation, and the defended thesis.
+
+Chapter~\ref{ch:literature} presents the literature review and theoretical background. It explains key concepts (LLM, prompt engineering, recommendation systems), related work, the theoretical framework, an illustrative code snippet, and the research motivation.
+
+Chapter~\ref{ch:analysis} presents the case and system analysis. It describes the situation of gift selection today, user groups, functional and non-functional requirements, constraints, and risks.
+
+Chapter~\ref{ch:development} presents the practical research. It describes the design and development of the Telegram bot, the database structure, the four prompt strategies, the experimental results, user feedback, and evaluation.
+
+Chapter~\ref{ch:discussion} discusses the results and future development. It compares the bot with other solutions, presents proposals for improvement, evaluates feasibility, and outlines further development directions.
+
+Chapter~\ref{ch:conclusions} presents the conclusions. It explains how the aim was achieved, how the tasks were completed, and how the hypothesis was validated.

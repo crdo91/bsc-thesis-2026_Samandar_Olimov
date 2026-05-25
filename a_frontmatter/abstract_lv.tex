@@ -1,21 +1,20 @@
-\frontmatterpage
-\unchapter{Anotācija}
+\chapter*{Anot\=acija (LV)}
+\addcontentsline{toc}{chapter}{Anot\=acija (LV)}
 
-Anotācija ir īss darba kopsavilkums. Tās mērķis ir sniegt lasītājam pārskatu par izvēlēto tēmu, darba struktūru, izmantotajām metodēm un galvenajiem rezultātiem. Anotācijas apjoms nedrīkst pārsniegt 300 vārdus, un tā jāveido kā viens nepārtraukts teksts (bez aizzīmēm, tabulām, attēliem vai atsaucēm).  
+\textbf{Nosaukums:} M\=ak\-sl\=ig\=a intelekta Telegram bota izstr\=ade person\-aliz\=etiem d\=avanu ieteikumiem, izman\-tojot prompt inženierijas tehnikas.
 
-Parasti anotācija sākas ar \textbf{īsu tēmas ievadu}. 1–2 teikumos jānorāda, par ko ir darbs un kāpēc tēma ir aktuāla. Pilnais mērķis, uzdevumi vai hipotēze šeit nav jāatkārto – tie tiek detalizēti atspoguļoti Ievadā.  
+D\=avanas izv\=ele ir ikdienišks, bet laikietilp\=igs uz\-de\-vums. Tieš\-saistes veikali r\=ada daudz pre\-\v cu, bet ne\-pied\=av\=a person\-aliz\=etus padomus. Mo\-derni lielie va\-lo\-das mode\-\c li (LLM) var ana\-liz\=et d\=avanas sa\-\c n\=em\=eja profilu un ie\-te\-ikt da\-v\=anu ide\-jas da\-bisk\=a va\-lo\-d\=a. Ta\-\v cu LLM at\-bilžu kva\-lit\=ate ir \c lo\-ti at\-ka\-r\=iga no ievades teksta (prompta) di\-zaina. Šo problē\-mu p\=et\=i jauna pē\-t\=ij\=umu jo\-ma — prompt in\-žen\-ierija.
 
-Tālāk jāsniedz \textbf{darba struktūras pārskats pa nodaļām}.  
-Piemērs:  
-"Darbs sastāv no <NODAĻU SKAITS> nodaļām. 1. nodaļā aplūkoti <TEORĒTISKIE PAMATI>. 2. nodaļā sniegta <NOZARES/PROCESA/IZPĒTES OBJEKTA ANALĪZE>. 3. nodaļā veikts <EMPĪRISKAIS PĒTĪJUMS VAI PRAKTISKĀ IZPĒTE>. 4. nodaļā izstrādāti <UZLABOJUMI / MODEĻI / RISINĀJUMI>."  
+Darba m\=er\c kis ir iz\-strā\-d\=at Tele\-gram botu, kas iz\-manto LLM (Grok no xAI), lai sniegtu person\-aliz\=etus d\=avanu iete\-ikumus, un sa\-l\=id\-zin\=at \v cetras prompt in\v zen\-ierijas stra\-t\=e\-\v gi\-jas šim uz\-de\-vu\-mam: Naive, Cons\-trai\-ned, Chain-of-Thought (CoT) un Per\-sona-based.
 
-Pēc tam jāiekļauj īss pārskats par \textbf{izmantotajām metodēm}, bet bez liekas detalizācijas.  
-Piemērs:  
-"Pētījuma metodoloģiskais pamats ietver zinātniskās literatūras analīzi, statistisko datu izvērtēšanu un citus attiecīgus avotus. Darbā izmantotas šādas metodes: <UZSKAITĪT METODES PIEMĒRAM: salīdzinošā analīze, aptauja, eksperiments, modelēšana>."  
+Bots tika izstr\=ad\=ats Python valod\=a, izmantojot aiogram bibliot\=eku un SQLite datu b\=azi. Lieto\-t\=ajs iziet \=isu anketu ar sešiem strukturi\-z\=etiem jaut\=ajumiem un sa\-\c nem trīs personaliz\=etas d\=avanu idejas. Sis\-t\=ema ir izvietota PythonAnywhere m\=ako\-\c na pla\-tform\=a.
 
-Tālāk 2–3 teikumos jāapraksta \textbf{galvenie rezultāti un secinājumi}, uzsverot tikai būtiskāko ieguldījumu.  
+Tika veikts kontrol\=ets eksperiments. Tika sagatavotas 30 sin\-t\=etiskas lietot\=aju per\-sonas. Visas \v cetras stra\-t\=e\-\v gi\-jas tika izpild\=itas uz vis\=am person\=am, kop\=a — 120 testa gad\=ijumi. Katra atbilde tika nov\=ert\=eta p\=ec piec\=am metrik\=am: re\-le\-vance, ra\-doš\=ums, specifis\-kums, halluci\-n\=acijas iezīme un at\-bildes laiks. Bots tika test\=ets ar\=i ar 8 re\=alajiem lietot\=ajiem.
 
-Noslēgumā jānorāda \textbf{darba apjoms}.  
-\thesisscopeLV
+Rezult\=ati apstiprina hipot\=ezi, ka uzlabot\=as stra\-t\=e\-\v gi\-jas dod ie\-v\=ero\-jami labākus iete\-ikumus nek\=a vienkārš\=a (naive) pieeja. Lab\=ak\=a kop\=ej\=a stra\-t\=e\-\v gi\-ja bija Chain-of-Thought (relevance 4.43/5, hallucin\=acija 8.9\%). Visradoš\=ak\=a stra\-t\=e\-\v gi\-ja bija Persona-based (radoš\=ums 4.53/5). Visas \v cetras stra\-t\=e\-\v gi\-jas atbild\=eja mazāk nek\=a 10 sekund\=es. 75\% lietot\=aju teica, ka izmantotu botu atk\=al.
 
-\textbf{Atslēgvārdi:} jānorāda 5–7 galvenie jēdzieni, kas raksturo darba tēmu un saturu (piemēram, <ATSLĒGVĀRDS1>, <ATSLĒGVĀRDS2>, <ATSLĒGVĀRDS3>).
+Darb\=a ir pied\=av\=ati turp\-m\=akie uzla\-bo\-jumi: integr\=acija ar p\=ardošanas platform\=am, daudz\-mod\=ala ievade, daudzva\-lod\=u atbalsts un hib\-r\=id\=a prompt pipeline.
+
+Darbs ap\-stiprina, ka prompt in\-žen\-ierija ir re\=ala un izm\=erojama in\-žen\-ierijas dar\-b\=iba. Pied\=av\=at\=a meto\-do\-lo\-\v gi\-ja ir do\-m\=ena ne\-at\-ka\-r\=iga un to var izmantot citos personaliz\=etos rekomend\=aciju uzde\-vumos.
+
+\textbf{Apj\=oms:} 55 lappuses, 14 tabulas, 7 at\-tē\-li, zx atsauces, 22 pielikumi.
